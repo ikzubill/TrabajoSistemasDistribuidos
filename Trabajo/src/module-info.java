@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author mikke
- *
- */
-module Trabajo {
-}
