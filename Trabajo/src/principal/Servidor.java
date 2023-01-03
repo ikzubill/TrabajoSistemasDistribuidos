@@ -14,7 +14,7 @@ public class Servidor {
 			while(true) {
 				Socket s1=ss.accept();
 				BufferedWriter bw1=new BufferedWriter(new OutputStreamWriter(s1.getOutputStream()));
-				bw1.write("Jugador conectado, espere a que se conecten todos los jugadores\r\n");
+				bw1.write("Bienvenido al generador de cruces del Mundial de Qatar 2022\r\n");
 				bw1.flush();
 				pool.execute(new AtenderPeticion(s1,bw1));
 			}
