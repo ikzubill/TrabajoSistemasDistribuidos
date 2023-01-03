@@ -1,0 +1,25 @@
+Predicciones del jugador:  MIGUEL
+Grupo A: 
+Primero: Senegal
+Segundo: Países Bajos
+Grupo B: 
+Primero: Estados Unidos
+Segundo: Gales
+Grupo C: 
+Primero: Polonia
+Segundo: México
+Grupo D: 
+Primero: Túnez
+Segundo: Francia
+Grupo E: 
+Primero: Japón
+Segundo: Costa Rica
+Grupo F: 
+Primero: Bélgica
+Segundo: Croacia
+Grupo G: 
+Primero: Brasil
+Segundo: Serbia
+Grupo H: 
+Primero: Ghana
+Segundo: Portugal
