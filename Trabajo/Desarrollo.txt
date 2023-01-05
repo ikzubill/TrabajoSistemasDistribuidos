@@ -1,25 +1,52 @@
-Predicciones del jugador:  MIGUEL
+Predicciones del jugador:  pepe
+Fase de grupos:  pepe
+
 Grupo A: 
-Primero: Senegal
-Segundo: Países Bajos
+Primero: Qatar
+Segundo: Senegal
 Grupo B: 
-Primero: Estados Unidos
+Primero: Irán
 Segundo: Gales
 Grupo C: 
 Primero: Polonia
-Segundo: México
+Segundo: Argentina
 Grupo D: 
-Primero: Túnez
-Segundo: Francia
+Primero: Dinamarca
+Segundo: Australia
 Grupo E: 
 Primero: Japón
-Segundo: Costa Rica
+Segundo: España
 Grupo F: 
-Primero: Bélgica
-Segundo: Croacia
+Primero: Canadá
+Segundo: Marruecos
 Grupo G: 
-Primero: Brasil
-Segundo: Serbia
+Primero: Serbia
+Segundo: Camerún
 Grupo H: 
-Primero: Ghana
-Segundo: Portugal
+Primero: Portugal
+Segundo: Ghana
+Octavos de final: 
+
+Qatar vs Gales gana: Gales 
+Polonia vs Australia gana: Polonia 
+Japón vs Marruecos gana: Japón 
+Serbia vs Ghana gana: Ghana 
+Senegal vs Irán gana: Senegal 
+Argentina vs Dinamarca gana: Argentina 
+España vs Canadá gana: España 
+Camerún vs Portugal gana: Portugal 
+Cuartos de final: 
+
+Polonia vs Polonia gana: Polonia 
+Polonia vs Ghana gana: Ghana 
+Polonia vs Argentina gana: Argentina 
+Polonia vs Portugal gana: Portugal 
+Semifinales: 
+
+Polonia vs Ghana gana: Polonia 
+Argentina vs Portugal gana: Portugal 
+Final: 
+
+Polonia vs Portugal gana: Polonia 
+
+Fin. El ganador es Polonia 
