@@ -82,7 +82,7 @@ public class AtenderPeticion implements Runnable{
 		return "";
 	}
 	
-	
+	//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
 	public static String resultadoValido(BufferedReader br, BufferedWriter bw, ArrayList<String> equiposGrupo, int m)throws  IOException{
 		String respuesta = "";
 		String equipo = "";
@@ -144,7 +144,7 @@ public class AtenderPeticion implements Runnable{
 			bw2.write("ya" +  "\r\n"); 
 			bw2.flush();
 			
-			String nombre1, nombre2, grupo,respuesta1,respuesta2;
+			String nombre1, nombre2, grupo,respuesta1,respuesta2, respuesta3, respuesta4;
 			int k=0;
 			nombre1=br1.readLine();
 			nombre2=br2.readLine();
@@ -173,33 +173,40 @@ public class AtenderPeticion implements Runnable{
 				bw2.flush();
 				
 				fw.write("Grupo " + grupo + ": \r\n");
+				//HASTA AQUÍ FUNCIONA BIEN
 				
-				//Aquí es donde hay que hacer lo de los hilos
+//				//Aquí es donde hay que hacer lo de los hilos
 //				EsperarRespuesta er1=new EsperarRespuesta(br1);
 //				EsperarRespuesta er2=new EsperarRespuesta(br2);
 //				er1.start();
 //				er2.start();
 //				er1.join();
 //				er2.join();
+//				//Hay que sacar el primero del grupo correspondiente (i).
+//				//respuesta= xml(primero(i)) MIRAR COMO LO SACAS CON EL id MUELAS
 //				puntos=actualizarPuntuaciones(er1.getRespuesta(),er2.getRespuesta(),
 //						er1.getTiempo(),er2.getTiempo(),respuesta);
 //				fw.write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
 //				fw.write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
 //				fw.write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
-//				bw1.write("Puntucaiones: Jugador1:"+puntos[0]+" Jugador2:"+puntos[1]+"\r\n");
+//				bw1.write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
 //				bw1.flush();
-//				bw2.write("Puntucaiones: Jugador1:"+puntos[0]+" Jugador2:"+puntos[1]+"\r\n");
+//				bw2.write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
 //				bw2.flush();
 
 				
 				
 				
 				
-				
+				//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
 				respuesta1=resultadoValido(br1, bw1, equiposGrupo, 4);
 				respuesta2=resultadoValido(br2, bw2, equiposGrupo, 4);
+				
+				//Esto mantenerlo aquí
 				equiposGrupo.remove(respuesta1);
-				fw.write("Primero: "+ respuesta1+"\r\n");
+				
+				fw.write("Primero según "+nombre1+" y "+nombre2+".\r\n");
+				fw.write(respuesta1+" y "+respuesta2+".\r\n");
 				
 				primeros.add(respuesta1);
 //				fw.write("Octavos prueba: " + partido.getNextSibling().getNodeName()+"\r\n" );
@@ -212,11 +219,18 @@ public class AtenderPeticion implements Runnable{
 				bw1.write("ya" +  "\r\n");
 				bw1.flush();
 				
-				respuesta2 = resultadoValido(br1, bw1, equiposGrupo, 3);
-				fw.write("Segundo: "+ respuesta2+"\r\n");
-				segundos.add(respuesta2);
+				bw2.write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
+				bw2.write("ya" +  "\r\n");
+				bw2.flush();
 				
-				//Mostrar quien ha acertado antes y cuales eran los resultados.
+				//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
+				respuesta3 = resultadoValido(br1, bw1, equiposGrupo, 3);
+				respuesta4 = resultadoValido(br2, bw2, equiposGrupo, 3);
+				
+				//Esto mantenerlo aquí
+				fw.write("Segundo según "+nombre1+" y "+nombre2+".\r\n");
+				fw.write(respuesta3+" y "+respuesta4+".\r\n");
+				segundos.add(respuesta3);
 			}
 			fw.write("\r\n");
 		}
