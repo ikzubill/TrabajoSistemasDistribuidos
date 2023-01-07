@@ -51,18 +51,36 @@ public class AtenderPeticion implements Runnable{
 			List<String> primeros= new ArrayList<String>();
 			List<String> segundos= new ArrayList<String>();
 			
-			faseDeGrupos(game, primeros, segundos, octavos);
+			DocumentBuilderFactory dbf=DocumentBuilderFactory.newDefaultInstance();	
+			DocumentBuilder db=dbf.newDocumentBuilder();		
+			Document doc=db.parse(".\\src\\clasificacion.xml");
+			Element root=doc.getDocumentElement();
+			
+			faseDeGrupos(game, primeros, segundos, octavos,root);
 			
 //			puntuaciones = faseDeGrupos(bw1, bw2, br1, br2, fw, primeros, segundos, octavos);
 			generarOctavos(primeros, segundos, octavos);			
 
-			octavos(bw1,br1,fw,octavos,cuartos);
-			cuartos(bw1,br1,fw, cuartos,semifinales);
-			semifinales(bw1,br1,fw,semifinales,finalistas);
-			finales(bw1,br1,fw,finalistas);		
-			cerrar(fw,bw1,dis1);
+			NodeList partidos=root.getElementsByTagName("partido");
+			
+			enfrentamientos(game,octavos,cuartos, partidos,16);
+			
+//			cuartos(game, cuartos,semifinales);
+//			
+//			semifinales(game,semifinales,finalistas);
+//			
+//			finales(game,finalistas);	
+//			
+//			cerrar(game,dis1);
 
-		}  catch (IOException e) {
+		}  
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -125,14 +143,9 @@ public class AtenderPeticion implements Runnable{
 		}
 	}
 	
-	public static void faseDeGrupos(Partida game, List<String> primeros,List<String> segundos,List<String> octavos) {
+	public static void faseDeGrupos(Partida game, List<String> primeros,List<String> segundos,List<String> octavos, Element root) {
 		try{
 
-			DocumentBuilderFactory dbf=DocumentBuilderFactory.newDefaultInstance();
-			DocumentBuilder db=dbf.newDocumentBuilder();
-			Document doc=db.parse(".\\src\\clasificacion.xml");
-			
-			Element root=doc.getDocumentElement();	
 			NodeList grupos=root.getElementsByTagName("grupo");
 			NodeList equipos=root.getElementsByTagName("equipo");
 			
@@ -258,13 +271,6 @@ public class AtenderPeticion implements Runnable{
 				
 			}
 			game.getFw().write("\r\n");
-		}
-		catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -286,29 +292,64 @@ public class AtenderPeticion implements Runnable{
 		}
 	}
 	
-	public static void octavos(BufferedWriter bw1,BufferedReader br1,FileWriter fw, List<String> octavos,List<String> cuartos){
+	public static void enfrentamientos(Partida game, List<String> actual,List<String> siguiente, NodeList partidos,int n){
 		try {
-			fw.write("Octavos de final: \r\n");
-			fw.write("\r\n");
-			bw1.write("¡¡¡Comienzan los octavos!!! \r\n");
-
+			game.getFw().write("Octavos de final: \r\n");
+			game.getFw().write("\r\n");
+			game.getJugador1().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
+			game.getJugador2().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
+			
 			String respuesta1;
 			for(int i=0;i<octavos.size();i=i+2) {
 				ArrayList<String> encuentro=new ArrayList<>();
 				encuentro.add(octavos.get(i));
 				encuentro.add(octavos.get(i+1));
 				
-				bw1.write("¿Cual fue el resultado de este partido? \r\n");
-				bw1.write(octavos.get(i) +" vs " + octavos.get(i+1)  + " \r\n");
-				bw1.write("ya" +  "\r\n");
-				bw1.flush();
+				game.getJugador1().getBw().write("¿Cual fue el resultado de este partido? \r\n");
+				game.getJugador1().getBw().write(octavos.get(i) +" vs " + octavos.get(i+1)  + " \r\n");
+				game.getJugador1().getBw().write("ya" +  "\r\n");
+				game.getJugador1().getBw().flush();
 				
-				respuesta1= resultadoValido(br1, bw1, encuentro, 2);
-				cuartos.add(respuesta1);
-				fw.write(octavos.get(i) +" vs " + octavos.get(i+1)  + " resultado: " +respuesta1 +" \r\n");	
+				game.getJugador2().getBw().write("¿Cual fue el resultado de este partido? \r\n");
+				game.getJugador2().getBw().write(octavos.get(i) +" vs " + octavos.get(i+1)  + " \r\n");
+				game.getJugador2().getBw().write("ya" +  "\r\n");
+				game.getJugador2().getBw().flush();
+
+		
+				EsperarRespuesta er1=new EsperarRespuesta(game.getJugador1().getBr(),game.getJugador1().getBw(),encuentro,2);
+				EsperarRespuesta er2=new EsperarRespuesta(game.getJugador2().getBr(),game.getJugador2().getBw(),encuentro,2);
+				er1.start();
+				er2.start();
+				er1.join();
+				er2.join();
+				
+				
+				String ganadorPartido=partidos.item(i/2).getAttributes().getNamedItem("id").getNodeValue();
+				
+				actualizarPuntuaciones(game,er1.getRespuesta(),er2.getRespuesta(),
+						er1.getTiempo(),er2.getTiempo(),ganadorPartido);
+				//Esto mantenerlo aquí
+				
+				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+  "Puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador1().getBw().flush();
+
+				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+" puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador2().getBw().flush();
+				
+				game.getFw().write("¿¿Cual fue el resultado de este partido?  " + octavos.get(i) +" vs " + octavos.get(i+1) + " \r\n");
+				game.getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
+				
+				
+				
+				cuartos.add(ganadorPartido);	
+			
 			}
-			fw.write("\r\n");
+			game.getFw().write("\r\n");
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
