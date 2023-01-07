@@ -31,7 +31,6 @@ public class AtenderPeticion implements Runnable{
 	}
 	@Override
 	public void run() {
-		int [] puntuaciones = {0,0};
 		
 		try(BufferedReader br1=new BufferedReader(new InputStreamReader(socket1.getInputStream()));
 			BufferedReader br2=new BufferedReader(new InputStreamReader(socket2.getInputStream()));
@@ -40,11 +39,10 @@ public class AtenderPeticion implements Runnable{
 			) {
 
 			FileWriter fw=new FileWriter("Desarrollo.txt");
-			FileWriter fw2=new FileWriter("Desarrollo2.txt");
 			
-			Jugador jugador1= new Jugador(bw1, br1, fw);
-			Jugador jugador2 = new Jugador(bw2, br2, fw2);
-			Partida game = new Partida(jugador1, jugador2);
+			Jugador jugador1= new Jugador(bw1, br1);
+			Jugador jugador2 = new Jugador(bw2, br2);
+			Partida game = new Partida(jugador1, jugador2,fw);
 			
 			List<String> octavos= new ArrayList<String>();
 			List<String> cuartos= new ArrayList<String>();
@@ -53,15 +51,11 @@ public class AtenderPeticion implements Runnable{
 			List<String> primeros= new ArrayList<String>();
 			List<String> segundos= new ArrayList<String>();
 			
-			puntuaciones = faseDeGrupos(game, primeros, segundos, octavos);
+			faseDeGrupos(game, primeros, segundos, octavos);
 			
 //			puntuaciones = faseDeGrupos(bw1, bw2, br1, br2, fw, primeros, segundos, octavos);
 			generarOctavos(primeros, segundos, octavos);			
-//			octavos(bw1,br1,bw2,br2,fw,octavos,cuartos);
-//			cuartos(bw1,br1,bw2,br2,fw, cuartos,semifinales);
-//			semifinales(bw1,br1,bw2,br2,fw,semifinales,finalistas);
-//			finales(bw1,br1,bw2,br2,fw,finalistas);		
-//			cerrar(fw,bw1,bw2,br2,dis1);
+
 			octavos(bw1,br1,fw,octavos,cuartos);
 			cuartos(bw1,br1,fw, cuartos,semifinales);
 			semifinales(bw1,br1,fw,semifinales,finalistas);
@@ -112,30 +106,28 @@ public class AtenderPeticion implements Runnable{
 		return equipo;
 	}
 	
-	public static int[] actualizarPuntuaciones(String s1, String s2, long t1, long t2, String respuesta) {
-		int[]resultados= {0,0};
+	public static void actualizarPuntuaciones(Partida game, String s1, String s2, long t1, long t2, String respuesta) {
 		boolean acertada=false;
 		if(s1.equalsIgnoreCase(respuesta)) {
 			acertada=true;
-			resultados[0]=1;
+			game.getJugador1().addPunto();
 		}
 		if(s2.equalsIgnoreCase(respuesta)) {
 			if(acertada) {
 				if(t2<t1) {
-					resultados[0]=0;
-					resultados[1]=1;
+					game.getJugador1().lowPunto();
+					game.getJugador2().addPunto();
 				}
 			}
 			else {
-				resultados[1]=1;
+				game.getJugador2().addPunto();
 			}
 		}
-		return resultados;
 	}
 	
-	public static int [] faseDeGrupos(Partida game, List<String> primeros,List<String> segundos,List<String> octavos) {
+	public static void faseDeGrupos(Partida game, List<String> primeros,List<String> segundos,List<String> octavos) {
 		try{
-			int [] puntos = {0,0};
+
 			DocumentBuilderFactory dbf=DocumentBuilderFactory.newDefaultInstance();
 			DocumentBuilder db=dbf.newDocumentBuilder();
 			Document doc=db.parse(".\\src\\clasificacion.xml");
@@ -152,13 +144,13 @@ public class AtenderPeticion implements Runnable{
 			game.getJugador2().getBw().write("ya" +  "\r\n"); 
 			game.getJugador2().getBw().flush();
 			
-			String nombre1, nombre2, grupo,respuesta1,respuesta2, respuesta3, respuesta4;
+			String grupo;
 			int k=0;
-			nombre1=game.getJugador1().getBr().readLine();
-			nombre2=game.getJugador2().getBr().readLine();
-			game.getJugador1().getFw().write("Predicciones de los jugadores: " + nombre1 + " y "+ nombre2 + "\r\n");
-			game.getJugador1().getFw().write("Fase de grupos:  \r\n");
-			game.getJugador1().getFw().write("\r\n");
+			game.getJugador1().setNombre(game.getJugador1().getBr().readLine());
+			game.getJugador2().setNombre(game.getJugador2().getBr().readLine());
+			game.getFw().write("Predicciones de los jugadores: " + game.getJugador1().getNombre() + " y "+ game.getJugador2().getNombre() + "\r\n");
+			game.getFw().write("Fase de grupos:  \r\n");
+			game.getFw().write("\r\n");
 			for(int i=0;i<grupos.getLength();i=i+1) {
 				
 				grupo = letraGrupo(i);
@@ -189,12 +181,12 @@ public class AtenderPeticion implements Runnable{
 				game.getJugador2().getBw().write("ya" +  "\r\n");
 				game.getJugador2().getBw().flush();
 				
-				game.getJugador1().getFw().write("Grupo " + grupo + ": \r\n");
+				game.getFw().write("Grupo " + grupo + ": \r\n");
 				//HASTA AQUÍ FUNCIONA BIEN
 				
 				//Aquí es donde hay que hacer lo de los hilos
-				EsperarRespuesta er1=new EsperarRespuesta(game.getJugador1().getBr());
-				EsperarRespuesta er2=new EsperarRespuesta(game.getJugador2().getBr());
+				EsperarRespuesta er1=new EsperarRespuesta(game.getJugador1().getBr(),game.getJugador1().getBw(),equiposGrupo,4);
+				EsperarRespuesta er2=new EsperarRespuesta(game.getJugador2().getBr(),game.getJugador2().getBw(),equiposGrupo,4);
 				er1.start();
 				er2.start();
 				er1.join();
@@ -202,38 +194,31 @@ public class AtenderPeticion implements Runnable{
 				//Hay que sacar el primero del grupo correspondiente (i).
 				
 				//respuesta= xml(primero(i)) MIRAR COMO LO SACAS CON EL id MUELAS
-				puntos=actualizarPuntuaciones(er1.getRespuesta(),er2.getRespuesta(),
+				actualizarPuntuaciones(game,er1.getRespuesta(),er2.getRespuesta(),
 						er1.getTiempo(),er2.getTiempo(),equipoPrimero);
 				
-				game.getJugador1().getFw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
-				game.getJugador1().getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
-				game.getJugador1().getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
+				game.getFw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
+				game.getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
 				
 
-				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
+				game.getJugador1().getBw().write("Puntuaciones: " + game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+  "Puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador1().getBw().flush();
 
-				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
+				game.getJugador2().getBw().write("Puntuaciones: "+ game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+" puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador2().getBw().flush();
 
-				
-				
-				
-				
-				//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
-				respuesta1=resultadoValido(game.getJugador1().getBr(), game.getJugador1().getBw(), equiposGrupo, 4);
-				respuesta2=resultadoValido(game.getJugador2().getBr(), game.getJugador2().getBw(), equiposGrupo, 4);
+//				//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
+//				respuesta1=resultadoValido(game.getJugador1().getBr(), game.getJugador1().getBw(), equiposGrupo, 4);
+//				respuesta2=resultadoValido(game.getJugador2().getBr(), game.getJugador2().getBw(), equiposGrupo, 4);
 				
 				//Esto mantenerlo aquí
-				equiposGrupo.remove(respuesta1);
+				equiposGrupo.remove(equipoPrimero);
 				
-				game.getJugador1().getFw().write("Primero según "+nombre1+" y "+nombre2+".\r\n");
-				game.getJugador1().getFw().write(respuesta1+" y "+respuesta2+".\r\n");
+//				game.getFw().write("Primero según "+nombre1+" y "+nombre2+".\r\n");
+//				game.getFw().write(er1.respuesta +" y "+er2.respuesta+".\r\n");
 				
-				primeros.add(respuesta1);
-//				fw.write("Octavos prueba: " + partido.getNextSibling().getNodeName()+"\r\n" );
-//				patido.getNextSibling().setTextContent(respuesta1);;
-//				partidos.item(p).setTextContent(respuesta1); //falta en rival
+				primeros.add(equipoPrimero);
 				
 				//Hay que meter el hilo y darle los puntos al que haya acertado antes.
 				
@@ -245,17 +230,34 @@ public class AtenderPeticion implements Runnable{
 				game.getJugador2().getBw().write("ya" +  "\r\n");
 				game.getJugador2().getBw().flush();
 				
-				//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
-				respuesta3 = resultadoValido(game.getJugador1().getBr(), game.getJugador1().getBw(), equiposGrupo, 3);
-				respuesta4 = resultadoValido(game.getJugador2().getBr(), game.getJugador2().getBw(), equiposGrupo, 3);
+				EsperarRespuesta er11=new EsperarRespuesta(game.getJugador1().getBr(),game.getJugador1().getBw(),equiposGrupo,3);
+				EsperarRespuesta er22=new EsperarRespuesta(game.getJugador2().getBr(),game.getJugador2().getBw(),equiposGrupo,3);
+				er11.start();
+				er22.start();
+				er11.join();
+				er22.join();
 				
+				actualizarPuntuaciones(game,er11.getRespuesta(),er22.getRespuesta(),
+						er11.getTiempo(),er22.getTiempo(),equipoSegundo);
 				//Esto mantenerlo aquí
-				game.getJugador1().getFw().write("Segundo según "+nombre1+" y "+nombre2+".\r\n");
-				game.getJugador1().getFw().write(respuesta3+" y "+respuesta4+".\r\n");
-				segundos.add(respuesta3);
+				
+				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+  "Puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador1().getBw().flush();
+
+				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+" puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador2().getBw().flush();
+				
+				game.getFw().write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
+				game.getFw().write("Respuesta Jugador1: "+er11.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta Jugador2: "+er22.getRespuesta()+"\r\n");
+				
+//				game.getFw().write("Segundo según "+nombre1+" y "+nombre2+".\r\n");
+//				game.getFw().write(er11.respuesta+" y "+er22.respuesta+".\r\n");
+				
+				segundos.add(equipoSegundo);
 				
 			}
-			game.getJugador1().getFw().write("\r\n");
+			game.getFw().write("\r\n");
 		}
 		catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -266,10 +268,9 @@ public class AtenderPeticion implements Runnable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally {
-			int [] algo = {0,0};
-			return algo;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}

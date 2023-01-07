@@ -52,17 +52,17 @@
 	<octavos>
 		<partido>3-1</partido>
 		<partido>2-1</partido>
-		<partido>1(1-3)1</partido>
+		<partido id="1-3">1-1</partido>
 		<partido>4-1</partido>
 		<partido>0-3</partido>
 		<partido>1-3</partido>
-		<partido>0(0-3)0</partido>
+		<partido id="0-3">0-0</partido>
 		<partido>1-6</partido>			
 	</octavos>
 	
 	<cuartos>
-		<partido>2(3-4)2</partido>
-		<partido>1(4-2)1</partido>
+		<partido id="3-4">2-2</partido>
+		<partido id="4-2">1-1</partido>
 		<partido>1-2</partido>
 		<partido>1-0</partido>
 	</cuartos>
@@ -71,7 +71,7 @@
 		<partido>2-0</partido>
 	</semifinales>
 	<finalistas>
-		<partido>3(4-2)3</partido>
+		<partido if="4-2">3-3</partido>
 	</finalistas>
 	
 </mundial>

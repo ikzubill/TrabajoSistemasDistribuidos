@@ -9,22 +9,30 @@ public class Jugador {
 	private int puntos;
 	private BufferedWriter bw;
 	private BufferedReader br;
-	private FileWriter fw;
+	private String nombre;
 	
-	public Jugador(BufferedWriter bw, BufferedReader br,FileWriter fw) {
+	public Jugador(BufferedWriter bw, BufferedReader br) {
 		this.puntos=0;
 		this.bw=bw;
 		this.br=br;
-		this.fw=fw;
 	}
-	
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	public int getPuntos() {
 		return puntos;
 	}
 	public void addPunto() {
 		this.puntos = this.puntos+1;
 	}
-	
+	public void lowPunto() {
+		this.puntos = this.puntos-1;
+	}
 	public void addPuntos(int puntos) {
 		this.puntos = this.puntos  +puntos;
 	}
@@ -40,11 +48,6 @@ public class Jugador {
 	public void setBr(BufferedReader br) {
 		this.br = br;
 	}
-	public FileWriter getFw() {
-		return fw;
-	}
-	public void setFw(FileWriter fw) {
-		this.fw = fw;
-	}
+
 	
 }
