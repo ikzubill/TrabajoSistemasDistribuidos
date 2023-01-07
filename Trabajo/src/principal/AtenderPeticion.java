@@ -63,24 +63,30 @@ public class AtenderPeticion implements Runnable{
 
 			game.getFw().write("Octavos de final: \r\n");
 			game.getFw().write("\r\n");
-			game.getJugador1().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
-			game.getJugador2().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
+			bw1.write("\r\n");
+			bw2.write("\r\n");
+			bw1.write("¡¡¡Comienzan los octavos!!! \r\n");
+			bw2.write("¡¡¡Comienzan los octavos!!! \r\n");
 			
-			enfrentamientos(game,octavos,cuartos, partidos);
+			enfrentamientos(game,octavos,cuartos, partidos,0);
 			
 			fw.write("Cuartos de final: \r\n");
 			fw.write("\r\n");
+			bw1.write("\r\n");
+			bw2.write("\r\n");
 			bw1.write("¡¡¡Comienzan los cuartos!!! \r\n");
 			bw2.write("¡¡¡Comienzan los cuartos!!! \r\n");
 			
-			enfrentamientos(game,cuartos,semifinales, partidos);
+			enfrentamientos(game,cuartos,semifinales, partidos,8);
 			
 			fw.write("Semifinales: \r\n");
 			fw.write("\r\n");
+			bw1.write("\r\n");
+			bw2.write("\r\n");
 			bw1.write("¡¡¡Comienzan las semifinales!!! \r\n");
 			bw2.write("¡¡¡Comienzan las semifinales!!! \r\n");
 			
-			enfrentamientos(game,semifinales,finalistas, partidos);
+			enfrentamientos(game,semifinales,finalistas, partidos,12);
 		
 			finales(game,finalistas,partidos.item(14).getAttributes().getNamedItem("id").getNodeValue());	
 			cerrar(game,dis1);
@@ -160,7 +166,7 @@ public class AtenderPeticion implements Runnable{
 
 			NodeList grupos=root.getElementsByTagName("grupo");
 			NodeList equipos=root.getElementsByTagName("equipo");
-			
+ 
 			game.getJugador1().getBw().write("Empieza el juego, introduce tu nombre:\r\n"); 
 			game.getJugador1().getBw().write("ya" +  "\r\n");
 			game.getJugador1().getBw().flush();
@@ -174,6 +180,7 @@ public class AtenderPeticion implements Runnable{
 			game.getJugador1().setNombre(game.getJugador1().getBr().readLine());
 			game.getJugador2().setNombre(game.getJugador2().getBr().readLine());
 			game.getFw().write("Predicciones de los jugadores: " + game.getJugador1().getNombre() + " y "+ game.getJugador2().getNombre() + "\r\n");
+			game.getFw().write("\r\n");
 			game.getFw().write("Fase de grupos:  \r\n");
 			game.getFw().write("\r\n");
 			for(int i=0;i<grupos.getLength();i=i+1) {
@@ -206,6 +213,7 @@ public class AtenderPeticion implements Runnable{
 				game.getJugador2().getBw().write("ya" +  "\r\n");
 				game.getJugador2().getBw().flush();
 				
+				game.getFw().write("\r\n");
 				game.getFw().write("Grupo " + grupo + ": \r\n");
 				//HASTA AQUÍ FUNCIONA BIEN
 				
@@ -223,8 +231,8 @@ public class AtenderPeticion implements Runnable{
 						er1.getTiempo(),er2.getTiempo(),equipoPrimero);
 				
 				game.getFw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
-				game.getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
-				game.getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta de "+ game.getJugador1().getNombre()+ ": "+er1.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta de "+ game.getJugador2().getNombre()+ ": "+er2.getRespuesta()+"\r\n");
 				
 
 				game.getJugador1().getBw().write("Puntuaciones: " + game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+  "Puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
@@ -273,8 +281,8 @@ public class AtenderPeticion implements Runnable{
 				game.getJugador2().getBw().flush();
 				
 				game.getFw().write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
-				game.getFw().write("Respuesta Jugador1: "+er11.getRespuesta()+"\r\n");
-				game.getFw().write("Respuesta Jugador2: "+er22.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta"+ game.getJugador1().getNombre()+ ": "+er11.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta"+ game.getJugador2().getNombre()+ ": "+er22.getRespuesta()+"\r\n");
 				
 //				game.getFw().write("Segundo según "+nombre1+" y "+nombre2+".\r\n");
 //				game.getFw().write(er11.respuesta+" y "+er22.respuesta+".\r\n");
@@ -304,7 +312,7 @@ public class AtenderPeticion implements Runnable{
 		}
 	}
 	
-	public static void enfrentamientos(Partida game, List<String> actual,List<String> siguiente, NodeList partidos){
+	public static void enfrentamientos(Partida game, List<String> actual,List<String> siguiente, NodeList partidos, int n){
 		try {
 
 			
@@ -332,23 +340,25 @@ public class AtenderPeticion implements Runnable{
 				er2.join();
 				
 				
-				String ganadorPartido=partidos.item(i/2).getAttributes().getNamedItem("id").getNodeValue();
+				String ganadorPartido=partidos.item(n).getAttributes().getNamedItem("id").getNodeValue();
 
 				siguiente.add(ganadorPartido);	
+				
 				actualizarPuntuaciones(game,er1.getRespuesta(),er2.getRespuesta(),
 						er1.getTiempo(),er2.getTiempo(),ganadorPartido);
 				//Esto mantenerlo aquí
 				
-				game.getJugador1().getBw().write("Puntuaciones: " + game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+  "Puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador1().getBw().write("Puntuaciones "+ ganadorPartido+" Puntuaciones: " + game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+  " puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador1().getBw().flush();
 
-				game.getJugador2().getBw().write("Puntuaciones: "+ game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+" puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador2().getBw().write("Puntuaciones "+ ganadorPartido+" Puntuaciones: "+ game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+" puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador2().getBw().flush();
 				
-				game.getFw().write("¿¿Cual fue el resultado de este partido?  " + actual.get(i) +" vs " + actual.get(i+1) + " \r\n");
-				game.getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
-				game.getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
-				
+				game.getFw().write(" \r\n");
+				game.getFw().write("¿Cual fue el resultado de este partido?  " + actual.get(i) +" vs " + actual.get(i+1) + " \r\n");
+				game.getFw().write("Respuesta"+ game.getJugador1().getNombre()+ ": "+er1.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta"+ game.getJugador2().getNombre()+ ": "+er2.getRespuesta()+"\r\n");
+				n++;
 				
 				
 			
@@ -412,8 +422,8 @@ public class AtenderPeticion implements Runnable{
 				game.getJugador2().getBw().flush();
 				
 				game.getFw().write("¿¿Cual fue el resultado de este partido?  " + finalistas.get(i) +" vs " + finalistas.get(i+1) + " \r\n");
-				game.getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
-				game.getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta"+ game.getJugador1().getNombre()+ ": "+er1.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta"+ game.getJugador2().getNombre()+ ": "+er2.getRespuesta()+"\r\n");
 				
 				game.getJugador1().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+" \r\n");
 				game.getJugador2().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+" \r\n");
@@ -424,8 +434,8 @@ public class AtenderPeticion implements Runnable{
 			game.getFw().write("\r\n");
 			game.getFw().write("Fin. El ganador es "+game.ganador()+" \r\n");
 			game.getFw().write("Tabla puntuaciones:  \r\n");
-			game.getFw().write(game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()+" \r\n");
-			game.getFw().write(game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()+" \r\n");
+			game.getFw().write(game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()+" puntos. \r\n");
+			game.getFw().write(game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()+" puntos. \r\n");
 			
 			//Hacer recuento de puntos y ver quien ha ganado.
 			
