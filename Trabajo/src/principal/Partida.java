@@ -15,7 +15,16 @@ public class Partida {
 		this.resultado=new int[2];
 		this.fw=fw;
 	}
-
+	
+	public String ganador() {
+		if(this.jugador1.getPuntos()>this.jugador2.getPuntos()) {
+			return this.jugador1.getNombre();
+		}else if(this.jugador1.getPuntos()<this.jugador2.getPuntos()) {
+			return this.jugador2.getNombre();
+		} else {
+			return "empate";
+		}
+	}
 	public int[] getResultado() {
 		return resultado;
 	}

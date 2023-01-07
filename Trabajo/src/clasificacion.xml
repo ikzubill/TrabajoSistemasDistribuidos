@@ -50,28 +50,28 @@
 		</grupo>		
 	</grupos>
 	<octavos>
-		<partido id="Estados Unidos">3-1</partido>
-		<partido>2-1</partido>
-		<partido id="1-3">1-1</partido>
-		<partido>4-1</partido>
-		<partido>0-3</partido>
-		<partido>1-3</partido>
-		<partido id="0-3">0-0</partido>
-		<partido>1-6</partido>			
+		<partido id="Países Bajos">3-1</partido>
+		<partido id="Argentina">2-1</partido>
+		<partido id="Croacia">1-1</partido>
+		<partido id="Brasil">4-1</partido>
+		<partido id="Inglaterra">0-3</partido>
+		<partido id="Francia">1-3</partido>
+		<partido id="Marruecos">0-0</partido>
+		<partido id="Portugal">1-6</partido>			
 	</octavos>
 	
 	<cuartos>
-		<partido id="3-4">2-2</partido>
-		<partido id="4-2">1-1</partido>
-		<partido>1-2</partido>
-		<partido>1-0</partido>
+		<partido id="Argentina">2-2</partido>
+		<partido id="Croacia">1-1</partido>
+		<partido id="Francia">1-2</partido>
+		<partido id="Marruecos">1-0</partido>
 	</cuartos>
 	<semifinales>
-		<partido>3-0</partido>
-		<partido>2-0</partido>
+		<partido id="Argentina">3-0</partido>
+		<partido id="Francia">2-0</partido>
 	</semifinales>
 	<finalistas>
-		<partido if="4-2">3-3</partido>
+		<partido id="Argentina">3-3</partido>
 	</finalistas>
 	
 </mundial>

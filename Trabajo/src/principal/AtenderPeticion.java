@@ -39,7 +39,6 @@ public class AtenderPeticion implements Runnable{
 			) {
 
 			FileWriter fw=new FileWriter("Desarrollo.txt");
-			
 			Jugador jugador1= new Jugador(bw1, br1);
 			Jugador jugador2 = new Jugador(bw2, br2);
 			Partida game = new Partida(jugador1, jugador2,fw);
@@ -54,24 +53,37 @@ public class AtenderPeticion implements Runnable{
 			DocumentBuilderFactory dbf=DocumentBuilderFactory.newDefaultInstance();	
 			DocumentBuilder db=dbf.newDocumentBuilder();		
 			Document doc=db.parse(".\\src\\clasificacion.xml");
+			
 			Element root=doc.getDocumentElement();
+			NodeList partidos=root.getElementsByTagName("partido");
 			
 			faseDeGrupos(game, primeros, segundos, octavos,root);
 			
-//			puntuaciones = faseDeGrupos(bw1, bw2, br1, br2, fw, primeros, segundos, octavos);
 			generarOctavos(primeros, segundos, octavos);			
 
-			NodeList partidos=root.getElementsByTagName("partido");
+			game.getFw().write("Octavos de final: \r\n");
+			game.getFw().write("\r\n");
+			game.getJugador1().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
+			game.getJugador2().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
 			
-			enfrentamientos(game,octavos,cuartos, partidos,16);
+			enfrentamientos(game,octavos,cuartos, partidos);
 			
-//			cuartos(game, cuartos,semifinales);
-//			
-//			semifinales(game,semifinales,finalistas);
-//			
-//			finales(game,finalistas);	
-//			
-//			cerrar(game,dis1);
+			fw.write("Cuartos de final: \r\n");
+			fw.write("\r\n");
+			bw1.write("¡¡¡Comienzan los cuartos!!! \r\n");
+			bw2.write("¡¡¡Comienzan los cuartos!!! \r\n");
+			
+			enfrentamientos(game,cuartos,semifinales, partidos);
+			
+			fw.write("Semifinales: \r\n");
+			fw.write("\r\n");
+			bw1.write("¡¡¡Comienzan las semifinales!!! \r\n");
+			bw2.write("¡¡¡Comienzan las semifinales!!! \r\n");
+			
+			enfrentamientos(game,semifinales,finalistas, partidos);
+		
+			finales(game,finalistas,partidos.item(14).getAttributes().getNamedItem("id").getNodeValue());	
+			cerrar(game,dis1);
 
 		}  
 		catch (IOException e) {
@@ -254,10 +266,10 @@ public class AtenderPeticion implements Runnable{
 						er11.getTiempo(),er22.getTiempo(),equipoSegundo);
 				//Esto mantenerlo aquí
 				
-				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+  "Puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador1().getBw().write("Puntuaciones: " + game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+  "Puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador1().getBw().flush();
 
-				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+" puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador2().getBw().write("Puntuaciones: "+ game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+" puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador2().getBw().flush();
 				
 				game.getFw().write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
@@ -292,26 +304,22 @@ public class AtenderPeticion implements Runnable{
 		}
 	}
 	
-	public static void enfrentamientos(Partida game, List<String> actual,List<String> siguiente, NodeList partidos,int n){
+	public static void enfrentamientos(Partida game, List<String> actual,List<String> siguiente, NodeList partidos){
 		try {
-			game.getFw().write("Octavos de final: \r\n");
-			game.getFw().write("\r\n");
-			game.getJugador1().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
-			game.getJugador2().getBw().write("¡¡¡Comienzan los octavos!!! \r\n");
+
 			
-			String respuesta1;
-			for(int i=0;i<octavos.size();i=i+2) {
+			for(int i=0;i<actual.size();i=i+2) {
 				ArrayList<String> encuentro=new ArrayList<>();
-				encuentro.add(octavos.get(i));
-				encuentro.add(octavos.get(i+1));
+				encuentro.add(actual.get(i));
+				encuentro.add(actual.get(i+1));
 				
 				game.getJugador1().getBw().write("¿Cual fue el resultado de este partido? \r\n");
-				game.getJugador1().getBw().write(octavos.get(i) +" vs " + octavos.get(i+1)  + " \r\n");
+				game.getJugador1().getBw().write(actual.get(i) +" vs " + actual.get(i+1)  + " \r\n");
 				game.getJugador1().getBw().write("ya" +  "\r\n");
 				game.getJugador1().getBw().flush();
 				
 				game.getJugador2().getBw().write("¿Cual fue el resultado de este partido? \r\n");
-				game.getJugador2().getBw().write(octavos.get(i) +" vs " + octavos.get(i+1)  + " \r\n");
+				game.getJugador2().getBw().write(actual.get(i) +" vs " + actual.get(i+1)  + " \r\n");
 				game.getJugador2().getBw().write("ya" +  "\r\n");
 				game.getJugador2().getBw().flush();
 
@@ -325,27 +333,28 @@ public class AtenderPeticion implements Runnable{
 				
 				
 				String ganadorPartido=partidos.item(i/2).getAttributes().getNamedItem("id").getNodeValue();
-				
+
+				siguiente.add(ganadorPartido);	
 				actualizarPuntuaciones(game,er1.getRespuesta(),er2.getRespuesta(),
 						er1.getTiempo(),er2.getTiempo(),ganadorPartido);
 				//Esto mantenerlo aquí
 				
-				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+  "Puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador1().getBw().write("Puntuaciones: " + game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+  "Puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador1().getBw().flush();
 
-				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+" puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador2().getBw().write("Puntuaciones: "+ game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+" puntos. "+ game.getJugador2().getNombre()+ ": "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador2().getBw().flush();
 				
-				game.getFw().write("¿¿Cual fue el resultado de este partido?  " + octavos.get(i) +" vs " + octavos.get(i+1) + " \r\n");
+				game.getFw().write("¿¿Cual fue el resultado de este partido?  " + actual.get(i) +" vs " + actual.get(i+1) + " \r\n");
 				game.getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
 				game.getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
 				
 				
 				
-				cuartos.add(ganadorPartido);	
 			
 			}
 			game.getFw().write("\r\n");
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -357,7 +366,108 @@ public class AtenderPeticion implements Runnable{
 	}
 	
 	
-	public static void cuartos(BufferedWriter bw1,BufferedReader br1,FileWriter fw, List<String> cuartos,List<String> semifinales){
+
+	
+	
+	public static void finales(Partida game,List<String> finalistas, String ganador){
+		try {
+
+			game.getFw().write("Final: \r\n");
+			game.getFw().write("\r\n");
+			game.getJugador1().getBw().write("¡¡¡Comienza la final!!! \r\n");
+			game.getJugador2().getBw().write("¡¡¡Comienza la final!!! \r\n");
+			
+			for(int i=0;i<finalistas.size();i=i+2) {
+				ArrayList<String> encuentro=new ArrayList<>();
+				encuentro.add(finalistas.get(i));
+				encuentro.add(finalistas.get(i+1));
+				
+				game.getJugador1().getBw().write("¿Cual fue el resultado de este partido? \r\n");
+				game.getJugador1().getBw().write(finalistas.get(i) +" vs " + finalistas.get(i+1)  + " \r\n");
+				game.getJugador1().getBw().write("ya" +  "\r\n");
+				game.getJugador1().getBw().flush();
+				
+				game.getJugador2().getBw().write("¿Cual fue el resultado de este partido? \r\n");
+				game.getJugador2().getBw().write(finalistas.get(i) +" vs " + finalistas.get(i+1)  + " \r\n");
+				game.getJugador2().getBw().write("ya" +  "\r\n");
+				game.getJugador2().getBw().flush();
+				
+				EsperarRespuesta er1=new EsperarRespuesta(game.getJugador1().getBr(),game.getJugador1().getBw(),encuentro,2);
+				EsperarRespuesta er2=new EsperarRespuesta(game.getJugador2().getBr(),game.getJugador2().getBw(),encuentro,2);
+				er1.start();
+				er2.start();
+				er1.join();
+				er2.join();
+				
+				
+				
+				actualizarPuntuaciones(game,er1.getRespuesta(),er2.getRespuesta(),
+						er1.getTiempo(),er2.getTiempo(),ganador);
+				//Esto mantenerlo aquí
+				
+				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+  "Puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador1().getBw().flush();
+
+				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+" puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador2().getBw().flush();
+				
+				game.getFw().write("¿¿Cual fue el resultado de este partido?  " + finalistas.get(i) +" vs " + finalistas.get(i+1) + " \r\n");
+				game.getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
+				game.getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
+				
+				game.getJugador1().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+" \r\n");
+				game.getJugador2().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+" \r\n");
+	
+			}
+
+			
+			game.getFw().write("\r\n");
+			game.getFw().write("Fin. El ganador es "+game.ganador()+" \r\n");
+			game.getFw().write("Tabla puntuaciones:  \r\n");
+			game.getFw().write(game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()+" \r\n");
+			game.getFw().write(game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()+" \r\n");
+			
+			//Hacer recuento de puntos y ver quien ha ganado.
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public static void cerrar(Partida game,DataOutputStream dis1) {
+		try {
+			game.getFw().close();
+		
+			game.getJugador1().getBw().write("END\r\n");
+			game.getJugador1().getBw().flush();
+			game.getJugador2().getBw().write("END\r\n");
+			game.getJugador2().getBw().flush();
+			
+			File fichero=new File("Desarrollo.txt");
+			game.getJugador1().getBw().write(fichero.getName()+":"+fichero.length()+"\r\n");
+			game.getJugador1().getBw().flush();
+			game.getJugador2().getBw().write(fichero.getName()+":"+fichero.length()+"\r\n");
+			game.getJugador2().getBw().flush();
+			
+			try(FileInputStream fin=new FileInputStream(fichero)){
+				byte[] buff=new byte[1024];
+				int leidos=fin.read(buff);
+				while(leidos!=-1) {
+					dis1.write(buff, 0, leidos);
+				}
+			}
+		} 	catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/*	public static void cuartos(BufferedWriter bw1,BufferedReader br1,FileWriter fw, List<String> cuartos,List<String> semifinales){
 		try {
 
 			fw.write("Cuartos de final: \r\n");
@@ -420,63 +530,5 @@ public class AtenderPeticion implements Runnable{
 			e.printStackTrace();
 		}
 		
-	}
-	
-	
-	public static void finales(BufferedWriter bw1,BufferedReader br1,FileWriter fw,List<String> finalistas){
-		try {
-
-			fw.write("Final: \r\n");
-			fw.write("\r\n");
-			bw1.write("¡¡¡Comienza la final!!! \r\n");
-			String respuesta1="";
-			for(int i=0;i<finalistas.size();i=i+2) {
-				ArrayList<String> encuentro=new ArrayList<>();
-				encuentro.add(finalistas.get(i));
-				encuentro.add(finalistas.get(i+1));
-				
-				bw1.write("¿Cual fue el resultado de este partido? \r\n");
-				bw1.write(finalistas.get(i) +" vs " + finalistas.get(i+1)  + " \r\n");
-				bw1.write("ya" +  "\r\n");
-				bw1.flush();
-				
-				respuesta1= resultadoValido(br1, bw1, encuentro, 2);
-				fw.write(finalistas.get(i) +" vs " + finalistas.get(i+1)  + " resultado: " +respuesta1 +" \r\n");
-	
-			}
-			bw1.write("¡¡¡Terminaste!!! El ganador es "+respuesta1+" \r\n");
-			fw.write("\r\n");
-			fw.write("Fin. El ganador es "+respuesta1+" \r\n");
-			
-			//Hacer recuento de puntos y ver quien ha ganado.
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
-	public static void cerrar(FileWriter fw,BufferedWriter bw1,DataOutputStream dis1) {
-		try {
-			fw.close();
-		
-			bw1.write("END\r\n");
-			bw1.flush();
-			File fichero=new File("Desarrollo.txt");
-			bw1.write(fichero.getName()+":"+fichero.length()+"\r\n");
-			bw1.flush();
-			try(FileInputStream fin=new FileInputStream(fichero)){
-				byte[] buff=new byte[1024];
-				int leidos=fin.read(buff);
-				while(leidos!=-1) {
-					dis1.write(buff, 0, leidos);
-				}
-			}
-		} 	catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	}*/
 }
