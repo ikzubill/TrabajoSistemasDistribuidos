@@ -415,24 +415,24 @@ public class AtenderPeticion implements Runnable{
 						er1.getTiempo(),er2.getTiempo(),ganador);
 				//Esto mantenerlo aquí
 				
-				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+  "Puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador1().getBw().write("Puntuaciones "+ game.getJugador1().getNombre()+ ": "+game.getJugador1().getPuntos()+  "Puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador1().getBw().flush();
 
-				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+game.getJugador1().getPuntos()+" puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
+				game.getJugador2().getBw().write("Puntuaciones "+ game.getJugador2().getNombre()+ ": "+game.getJugador1().getPuntos()+" puntos. Jugador2: "+game.getJugador2().getPuntos()+" puntos. \r\n");
 				game.getJugador2().getBw().flush();
 				
 				game.getFw().write("¿¿Cual fue el resultado de este partido?  " + finalistas.get(i) +" vs " + finalistas.get(i+1) + " \r\n");
 				game.getFw().write("Respuesta"+ game.getJugador1().getNombre()+ ": "+er1.getRespuesta()+"\r\n");
 				game.getFw().write("Respuesta"+ game.getJugador2().getNombre()+ ": "+er2.getRespuesta()+"\r\n");
 				
-				game.getJugador1().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+" \r\n");
-				game.getJugador2().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+" \r\n");
+				game.getJugador1().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+ ". El resultado ha sido: " + game.pintarResultado()+" \r\n");
+				game.getJugador2().getBw().write("¡¡¡Terminaste!!! El ganador es "+game.ganador()+ ". El resultado ha sido: " + game.pintarResultado()+" \r\n");
 	
 			}
 
 			
 			game.getFw().write("\r\n");
-			game.getFw().write("Fin. El ganador es "+game.ganador()+" \r\n");
+			game.getFw().write("Fin. El ganador es "+game.ganador()+ ". El resultado ha sido: " + game.pintarResultado()+" \r\n");
 			game.getFw().write("Tabla puntuaciones:  \r\n");
 			game.getFw().write(game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()+" puntos. \r\n");
 			game.getFw().write(game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()+" puntos. \r\n");

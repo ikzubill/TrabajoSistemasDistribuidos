@@ -28,7 +28,9 @@ public class Partida {
 	public int[] getResultado() {
 		return resultado;
 	}
-
+	public String pintarResultado() {
+		return resultado[0] + " - " + resultado[1];
+	}
 	public void setResultado(int[] resultado) {
 		this.resultado = resultado;
 	}
