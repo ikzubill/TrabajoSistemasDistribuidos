@@ -4,7 +4,7 @@
 			<equipo>Qatar</equipo>		
 			<equipo>Ecuador</equipo>		
 			<equipo id="segundo">Senegal</equipo>		
-			<equipo id="">Países Bajos</equipo>		
+			<equipo id="primero">Países Bajos</equipo>		
 		</grupo>
 		<grupo id="B">	
 			<equipo id="primero">Inglaterra</equipo>		

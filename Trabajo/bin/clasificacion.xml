@@ -1,77 +1,77 @@
 <mundial>
 	<grupos>
-		<grupo>	
+		<grupo id="A">	
 			<equipo>Qatar</equipo>		
 			<equipo>Ecuador</equipo>		
-			<equipo>Senegal</equipo>		
-			<equipo>Países Bajos</equipo>		
+			<equipo id="segundo">Senegal</equipo>		
+			<equipo id="primero">Países Bajos</equipo>		
 		</grupo>
-		<grupo>	
-			<equipo>Inglaterra</equipo>		
+		<grupo id="B">	
+			<equipo id="primero">Inglaterra</equipo>		
 			<equipo>Irán</equipo>		
-			<equipo>Estados Unidos</equipo>		
+			<equipo id="segundo">Estados Unidos</equipo>		
 			<equipo>Gales</equipo>	
 		</grupo>
-		<grupo>	
-			<equipo>Argentina</equipo>		
+		<grupo id="C">	
+			<equipo id="primero">Argentina</equipo>		
 			<equipo>Arabia Saudí</equipo>		
 			<equipo>México</equipo>		
-			<equipo>Polonia</equipo>		
+			<equipo id="segundo">Polonia</equipo>		
 		</grupo>
-		<grupo>	
-			<equipo>Australia</equipo>		
+		<grupo id="D">	
+			<equipo id="segundo">Australia</equipo>		
 			<equipo>Dinamarca</equipo>		
-			<equipo>Francia</equipo>		
+			<equipo id="primero">Francia</equipo>		
 			<equipo>Túnez</equipo>	
 		</grupo>
-		<grupo>	
+		<grupo id="E">	
 			<equipo>Alemania</equipo>		
 			<equipo>Costa Rica</equipo>		
-			<equipo>España</equipo>		
-			<equipo>Japón</equipo>		
+			<equipo id="segundo">España</equipo>		
+			<equipo id="primero">Japón</equipo>		
 		</grupo>
-		<grupo>	
+		<grupo id="F">	
 			<equipo>Bélgica</equipo>		
 			<equipo>Canadá</equipo>		
-			<equipo>Croacia</equipo>		
-			<equipo>Marruecos</equipo>		
+			<equipo id="segundo">Croacia</equipo>		
+			<equipo id="primero">Marruecos</equipo>		
 		</grupo>
-		<grupo>	
-			<equipo>Brasil</equipo>		
+		<grupo id="G">
+			<equipo id="primero">Brasil</equipo>		
 			<equipo>Camerún</equipo>		
 			<equipo>Serbia</equipo>		
-			<equipo>Suiza</equipo>	
+			<equipo id="segundo">Suiza</equipo>	
 		</grupo>	
-		<grupo>	
-			<equipo>Corea del Sur</equipo>		
+		<grupo id="H">	
+			<equipo id="segundo">Corea del Sur</equipo>		
 			<equipo>Ghana</equipo>		
-			<equipo>Portugal</equipo>		
+			<equipo id="primero">Portugal</equipo>		
 			<equipo>Uruguay</equipo>		
 		</grupo>		
 	</grupos>
 	<octavos>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>			
+		<partido>3-1</partido>
+		<partido>2-1</partido>
+		<partido>1(1-3)1</partido>
+		<partido>4-1</partido>
+		<partido>0-3</partido>
+		<partido>1-3</partido>
+		<partido>0(0-3)0</partido>
+		<partido>1-6</partido>			
 	</octavos>
 	
 	<cuartos>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>
-		<partido></partido>
+		<partido>2(3-4)2</partido>
+		<partido>1(4-2)1</partido>
+		<partido>1-2</partido>
+		<partido>1-0</partido>
 	</cuartos>
 	<semifinales>
-		<partido></partido>
-		<partido></partido>
+		<partido>3-0</partido>
+		<partido>2-0</partido>
 	</semifinales>
 	<finalistas>
-		<partido></partido>
+		<partido>3(4-2)3</partido>
 	</finalistas>
 	
 </mundial>

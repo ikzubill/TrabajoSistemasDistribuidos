@@ -40,6 +40,11 @@ public class AtenderPeticion implements Runnable{
 			) {
 
 			FileWriter fw=new FileWriter("Desarrollo.txt");
+			FileWriter fw2=new FileWriter("Desarrollo2.txt");
+			
+			Jugador jugador1= new Jugador(bw1, br1, fw);
+			Jugador jugador2 = new Jugador(bw2, br2, fw2);
+			Partida game = new Partida(jugador1, jugador2);
 			
 			List<String> octavos= new ArrayList<String>();
 			List<String> cuartos= new ArrayList<String>();
@@ -48,7 +53,9 @@ public class AtenderPeticion implements Runnable{
 			List<String> primeros= new ArrayList<String>();
 			List<String> segundos= new ArrayList<String>();
 			
-			puntuaciones = faseDeGrupos(bw1, bw2, br1, br2, fw, primeros, segundos, octavos);
+			puntuaciones = faseDeGrupos(game, primeros, segundos, octavos);
+			
+//			puntuaciones = faseDeGrupos(bw1, bw2, br1, br2, fw, primeros, segundos, octavos);
 			generarOctavos(primeros, segundos, octavos);			
 //			octavos(bw1,br1,bw2,br2,fw,octavos,cuartos);
 //			cuartos(bw1,br1,bw2,br2,fw, cuartos,semifinales);
@@ -126,7 +133,7 @@ public class AtenderPeticion implements Runnable{
 		return resultados;
 	}
 	
-	public static int [] faseDeGrupos(BufferedWriter bw1, BufferedWriter bw2, BufferedReader br1, BufferedReader br2, FileWriter fw, List<String> primeros,List<String> segundos,List<String> octavos) {
+	public static int [] faseDeGrupos(Partida game, List<String> primeros,List<String> segundos,List<String> octavos) {
 		try{
 			int [] puntos = {0,0};
 			DocumentBuilderFactory dbf=DocumentBuilderFactory.newDefaultInstance();
@@ -137,76 +144,91 @@ public class AtenderPeticion implements Runnable{
 			NodeList grupos=root.getElementsByTagName("grupo");
 			NodeList equipos=root.getElementsByTagName("equipo");
 			
-			bw1.write("Empieza el juego, introduce tu nombre:\r\n"); 
-			bw1.write("ya" +  "\r\n");
-			bw1.flush();
-			bw2.write("Empieza el juego, introduce tu nombre:\r\n"); 
-			bw2.write("ya" +  "\r\n"); 
-			bw2.flush();
+			game.getJugador1().getBw().write("Empieza el juego, introduce tu nombre:\r\n"); 
+			game.getJugador1().getBw().write("ya" +  "\r\n");
+			game.getJugador1().getBw().flush();
+			
+			game.getJugador2().getBw().write("Empieza el juego, introduce tu nombre:\r\n"); 
+			game.getJugador2().getBw().write("ya" +  "\r\n"); 
+			game.getJugador2().getBw().flush();
 			
 			String nombre1, nombre2, grupo,respuesta1,respuesta2, respuesta3, respuesta4;
 			int k=0;
-			nombre1=br1.readLine();
-			nombre2=br2.readLine();
-			fw.write("Predicciones de los jugadores: " + nombre1 + " y "+ nombre2 + "\r\n");
-			fw.write("Fase de grupos:  \r\n");
-			fw.write("\r\n");
+			nombre1=game.getJugador1().getBr().readLine();
+			nombre2=game.getJugador2().getBr().readLine();
+			game.getJugador1().getFw().write("Predicciones de los jugadores: " + nombre1 + " y "+ nombre2 + "\r\n");
+			game.getJugador1().getFw().write("Fase de grupos:  \r\n");
+			game.getJugador1().getFw().write("\r\n");
 			for(int i=0;i<grupos.getLength();i=i+1) {
 				
 				grupo = letraGrupo(i);
-				bw1.write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n"); 
-				bw2.write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n"); 
+				game.getJugador1().getBw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n"); 
+				game.getJugador2().getBw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n"); 
 				k=i*4;
 				ArrayList<String> equiposGrupo = new ArrayList<String>();
-				String equipo;
+				String equipo,equipoPrimero="",equipoSegundo="";
 				for(int j=0; j<4;j++) {
+					if(equipos.item(k).hasAttributes()){
+				        NamedNodeMap attr = equipos.item(k).getAttributes();
+				        Node nodeAttr2 = attr.getNamedItem("id");
+				        if(nodeAttr2.getNodeValue().equals("primero")) {
+				        	equipoPrimero=equipos.item(k).getTextContent();
+				        }else if(nodeAttr2.getNodeValue().equals("segundo")) {
+				        	equipoSegundo=equipos.item(k).getTextContent();
+				        }
+					}
 					equipo=equipos.item(k).getTextContent();
 					equiposGrupo.add(equipo);
-					bw1.write(equipo +  "\r\n"); 
-					bw2.write(equipo +  "\r\n"); 
+					game.getJugador1().getBw().write(equipo +  "\r\n"); 
+					game.getJugador2().getBw().write(equipo +  "\r\n"); 
 					k++;
 				}
-				bw1.write("ya" +  "\r\n");
-				bw1.flush();
+				game.getJugador1().getBw().write("ya" +  "\r\n");
+				game.getJugador1().getBw().flush();
 				
-				bw2.write("ya" +  "\r\n");
-				bw2.flush();
+				game.getJugador2().getBw().write("ya" +  "\r\n");
+				game.getJugador2().getBw().flush();
 				
-				fw.write("Grupo " + grupo + ": \r\n");
+				game.getJugador1().getFw().write("Grupo " + grupo + ": \r\n");
 				//HASTA AQUÍ FUNCIONA BIEN
 				
-//				//Aquí es donde hay que hacer lo de los hilos
-//				EsperarRespuesta er1=new EsperarRespuesta(br1);
-//				EsperarRespuesta er2=new EsperarRespuesta(br2);
-//				er1.start();
-//				er2.start();
-//				er1.join();
-//				er2.join();
-//				//Hay que sacar el primero del grupo correspondiente (i).
-//				//respuesta= xml(primero(i)) MIRAR COMO LO SACAS CON EL id MUELAS
-//				puntos=actualizarPuntuaciones(er1.getRespuesta(),er2.getRespuesta(),
-//						er1.getTiempo(),er2.getTiempo(),respuesta);
-//				fw.write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
-//				fw.write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
-//				fw.write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
-//				bw1.write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
-//				bw1.flush();
-//				bw2.write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
-//				bw2.flush();
+				//Aquí es donde hay que hacer lo de los hilos
+				EsperarRespuesta er1=new EsperarRespuesta(game.getJugador1().getBr());
+				EsperarRespuesta er2=new EsperarRespuesta(game.getJugador2().getBr());
+				er1.start();
+				er2.start();
+				er1.join();
+				er2.join();
+				//Hay que sacar el primero del grupo correspondiente (i).
+				
+				//respuesta= xml(primero(i)) MIRAR COMO LO SACAS CON EL id MUELAS
+				puntos=actualizarPuntuaciones(er1.getRespuesta(),er2.getRespuesta(),
+						er1.getTiempo(),er2.getTiempo(),equipoPrimero);
+				
+				game.getJugador1().getFw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
+				game.getJugador1().getFw().write("Respuesta Jugador1: "+er1.getRespuesta()+"\r\n");
+				game.getJugador1().getFw().write("Respuesta Jugador2: "+er2.getRespuesta()+"\r\n");
+				
+
+				game.getJugador1().getBw().write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
+				game.getJugador1().getBw().flush();
+
+				game.getJugador2().getBw().write("Puntuaciones: Jugador1: "+puntos[0]+" puntos. Jugador2: "+puntos[1]+" puntos. \r\n");
+				game.getJugador2().getBw().flush();
 
 				
 				
 				
 				
 				//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
-				respuesta1=resultadoValido(br1, bw1, equiposGrupo, 4);
-				respuesta2=resultadoValido(br2, bw2, equiposGrupo, 4);
+				respuesta1=resultadoValido(game.getJugador1().getBr(), game.getJugador1().getBw(), equiposGrupo, 4);
+				respuesta2=resultadoValido(game.getJugador2().getBr(), game.getJugador2().getBw(), equiposGrupo, 4);
 				
 				//Esto mantenerlo aquí
 				equiposGrupo.remove(respuesta1);
 				
-				fw.write("Primero según "+nombre1+" y "+nombre2+".\r\n");
-				fw.write(respuesta1+" y "+respuesta2+".\r\n");
+				game.getJugador1().getFw().write("Primero según "+nombre1+" y "+nombre2+".\r\n");
+				game.getJugador1().getFw().write(respuesta1+" y "+respuesta2+".\r\n");
 				
 				primeros.add(respuesta1);
 //				fw.write("Octavos prueba: " + partido.getNextSibling().getNodeName()+"\r\n" );
@@ -215,24 +237,25 @@ public class AtenderPeticion implements Runnable{
 				
 				//Hay que meter el hilo y darle los puntos al que haya acertado antes.
 				
-				bw1.write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
-				bw1.write("ya" +  "\r\n");
-				bw1.flush();
+				game.getJugador1().getBw().write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
+				game.getJugador1().getBw().write("ya" +  "\r\n");
+				game.getJugador1().getBw().flush();
 				
-				bw2.write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
-				bw2.write("ya" +  "\r\n");
-				bw2.flush();
+				game.getJugador2().getBw().write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");
+				game.getJugador2().getBw().write("ya" +  "\r\n");
+				game.getJugador2().getBw().flush();
 				
 				//ESTO HABRÍA QUE METERLO EN EL EsperarRespuesta
-				respuesta3 = resultadoValido(br1, bw1, equiposGrupo, 3);
-				respuesta4 = resultadoValido(br2, bw2, equiposGrupo, 3);
+				respuesta3 = resultadoValido(game.getJugador1().getBr(), game.getJugador1().getBw(), equiposGrupo, 3);
+				respuesta4 = resultadoValido(game.getJugador2().getBr(), game.getJugador2().getBw(), equiposGrupo, 3);
 				
 				//Esto mantenerlo aquí
-				fw.write("Segundo según "+nombre1+" y "+nombre2+".\r\n");
-				fw.write(respuesta3+" y "+respuesta4+".\r\n");
+				game.getJugador1().getFw().write("Segundo según "+nombre1+" y "+nombre2+".\r\n");
+				game.getJugador1().getFw().write(respuesta3+" y "+respuesta4+".\r\n");
 				segundos.add(respuesta3);
+				
 			}
-			fw.write("\r\n");
+			game.getJugador1().getFw().write("\r\n");
 		}
 		catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
