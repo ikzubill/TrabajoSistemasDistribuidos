@@ -1,10 +1,10 @@
+/*Autores: Miguel Muelas Tenorio e Iker Zubillaga Ruiz.
+ * Título del trabajo: Juego resultados Mundial de Qatar 2022.
+ */
 package principal;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,12 +19,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+//Clase en la que se implementa el desarrollo del juego.
 public class AtenderPeticion implements Runnable {
 	Socket socket1;
 	Socket socket2;
 	BufferedWriter bw1;
 	BufferedWriter bw2;
 
+	//Constructor con los atributos de la clase.
 	public AtenderPeticion(Socket s1, Socket s2, BufferedWriter w1, BufferedWriter w2) {
 		this.socket1 = s1;
 		this.socket2 = s2;
@@ -37,10 +39,11 @@ public class AtenderPeticion implements Runnable {
 
 		try (BufferedReader br1 = new BufferedReader(new InputStreamReader(socket1.getInputStream()));
 				BufferedReader br2 = new BufferedReader(new InputStreamReader(socket2.getInputStream()));) {
-
+			//Documento .txt donde se guarda el desarrollo del juego.
 			FileWriter fw = new FileWriter("Desarrollo.txt");
 			Jugador jugador1 = new Jugador(bw1, br1);
 			Jugador jugador2 = new Jugador(bw2, br2);
+			//Comenzamos la partida con dos jugadores.
 			Partida game = new Partida(jugador1, jugador2, fw);
 
 			List<String> primeros = new ArrayList<String>();
@@ -50,6 +53,7 @@ public class AtenderPeticion implements Runnable {
 			List<String> semifinales = new ArrayList<String>();
 			List<String> finalistas = new ArrayList<String>();
 
+			//Leemos del .xml los grupos con el sorteo realizado (marcará todos los enfrentamientos). En el tenemos los resultados también.
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newDefaultInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(".\\src\\clasificacion.xml");
@@ -265,6 +269,7 @@ public class AtenderPeticion implements Runnable {
 								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 
+				//Así no permitimos que se introduzca como respuesta el que ya realmente quedó primero
 				equiposGrupo.remove(equipoPrimero);
 				primeros.add(equipoPrimero);
 

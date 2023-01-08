@@ -1,3 +1,6 @@
+/*Autores: Miguel Muelas Tenorio e Iker Zubillaga Ruiz.
+ * Título del trabajo: Juego resultados Mundial de Qatar 2022.
+ */
 package principal;
 
 import java.io.FileWriter;

@@ -1,3 +1,6 @@
+/*Autores: Miguel Muelas Tenorio e Iker Zubillaga Ruiz.
+ * Título del trabajo: Juego resultados Mundial de Qatar 2022.
+ */
 package principal;
 
 import java.io.BufferedWriter;
@@ -8,6 +11,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+//Servidor básico al que se conectan dos clientes (jugadores).
 public class Servidor {
 	public static void main(String[] args) {
 		ExecutorService pool = Executors.newCachedThreadPool();
