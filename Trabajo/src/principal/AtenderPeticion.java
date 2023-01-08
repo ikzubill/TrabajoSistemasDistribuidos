@@ -36,9 +36,7 @@ public class AtenderPeticion implements Runnable {
 	public void run() {
 
 		try (BufferedReader br1 = new BufferedReader(new InputStreamReader(socket1.getInputStream()));
-				BufferedReader br2 = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
-				DataOutputStream dis1 = new DataOutputStream(socket1.getOutputStream());
-				DataOutputStream dis2 = new DataOutputStream(socket2.getOutputStream());) {
+				BufferedReader br2 = new BufferedReader(new InputStreamReader(socket2.getInputStream()));) {
 
 			FileWriter fw = new FileWriter("Desarrollo.txt");
 			Jugador jugador1 = new Jugador(bw1, br1);
@@ -51,7 +49,6 @@ public class AtenderPeticion implements Runnable {
 			List<String> cuartos = new ArrayList<String>();
 			List<String> semifinales = new ArrayList<String>();
 			List<String> finalistas = new ArrayList<String>();
-			
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newDefaultInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -89,10 +86,15 @@ public class AtenderPeticion implements Runnable {
 			bw2.write("¡¡¡Comienzan las semifinales!!! \r\n");
 
 			enfrentamientos(game, semifinales, finalistas, partidos, 12);
-			
+
 			finales(game, finalistas, partidos.item(14).getTextContent());
-	
-			cerrar(game, dis1);
+
+			game.getJugador1().getBw().write("END\r\n");
+			game.getJugador1().getBw().flush();
+			game.getJugador2().getBw().write("END\r\n");
+			game.getJugador2().getBw().flush();
+
+			fw.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -135,27 +137,33 @@ public class AtenderPeticion implements Runnable {
 		return "";
 	}
 
-	public static String actualizarPuntuaciones(Partida game, String s1, String s2, long t1, long t2, String respuesta) {
+	public static String actualizarPuntuaciones(Partida game, String s1, String s2, long t1, long t2,
+			String respuesta) {
 		boolean acertada = false;
-		String actualizado="";
+		String actualizado = "";
 		if (s1.equalsIgnoreCase(respuesta)) {
 			acertada = true;
 			game.getJugador1().addPunto();
-			actualizado=game.getJugador1().getNombre()+" acertó antes que "+game.getJugador2().getNombre()+". \r\n \r\n";
+			actualizado = game.getJugador1().getNombre() + " acertó antes que " + game.getJugador2().getNombre()
+					+ ". \r\n \r\n";
 		}
 		if (s2.equalsIgnoreCase(respuesta)) {
 			if (acertada) {
 				if (t2 < t1) {
 					game.getJugador1().lowPunto();
 					game.getJugador2().addPunto();
-					actualizado=game.getJugador2().getNombre()+" acertó antes que "+game.getJugador1().getNombre()+". \r\n \r\n";
+					actualizado = game.getJugador2().getNombre() + " acertó antes que " + game.getJugador1().getNombre()
+							+ ". \r\n \r\n";
 				}
 			} else {
 				game.getJugador2().addPunto();
-				actualizado=game.getJugador2().getNombre()+" acertó antes que "+game.getJugador1().getNombre()+". \r\n \r\n";
+				actualizado = game.getJugador2().getNombre() + " acertó antes que " + game.getJugador1().getNombre()
+						+ ". \r\n \r\n";
 			}
-		}if(actualizado.equalsIgnoreCase("")) {
-			actualizado="Ni "+game.getJugador2().getNombre()+" ni "+game.getJugador1().getNombre()+" acertaron el resultado. \r\n \r\n";
+		}
+		if (actualizado.equalsIgnoreCase("")) {
+			actualizado = "Ni " + game.getJugador2().getNombre() + " ni " + game.getJugador1().getNombre()
+					+ " acertaron el resultado. \r\n \r\n";
 		}
 		return actualizado;
 	}
@@ -170,16 +178,16 @@ public class AtenderPeticion implements Runnable {
 			game.getJugador2().getBw().write("Empieza el juego, introduce tu nombre:\r\n");
 			game.getJugador2().getBw().write("ya" + "\r\n");
 			game.getJugador2().getBw().flush();
-			
+
 			game.getJugador1().setNombre(game.getJugador1().getBr().readLine());
 			game.getJugador2().setNombre(game.getJugador2().getBr().readLine());
-			
+
 			game.getFw().write("Predicciones de los jugadores: " + game.getJugador1().getNombre() + " y "
 					+ game.getJugador2().getNombre() + "\r\n");
 			game.getFw().write("\r\n");
 			game.getFw().write("Fase de grupos:  \r\n");
 			game.getFw().write("\r\n");
-			
+
 			NodeList grupos = root.getElementsByTagName("grupo");
 			NodeList equipos = root.getElementsByTagName("equipo");
 
@@ -189,7 +197,7 @@ public class AtenderPeticion implements Runnable {
 				grupo = letraGrupo(i);
 				game.getJugador1().getBw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
 				game.getJugador2().getBw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
-				
+
 				k = i * 4;
 				ArrayList<String> equiposGrupo = new ArrayList<String>();
 				String equipo, equipoPrimero = "", equipoSegundo = "";
@@ -227,8 +235,8 @@ public class AtenderPeticion implements Runnable {
 				er1.join();
 				er2.join();
 
-				String ganador=actualizarPuntuaciones(game, er1.getRespuesta(), er2.getRespuesta(), er1.getTiempo(), er2.getTiempo(),
-						equipoPrimero);
+				String ganador = actualizarPuntuaciones(game, er1.getRespuesta(), er2.getRespuesta(), er1.getTiempo(),
+						er2.getTiempo(), equipoPrimero);
 
 				game.getJugador1().getBw().write("Respuesta correcta: " + equipoPrimero + ". \r\n");
 				game.getJugador1().getBw().write(ganador);
@@ -245,16 +253,17 @@ public class AtenderPeticion implements Runnable {
 								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 				game.getJugador2().getBw().flush();
-				
+
 				game.getFw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n");
 				game.getFw()
 						.write("Respuesta de " + game.getJugador1().getNombre() + ": " + er1.getRespuesta() + "\r\n");
 				game.getFw()
 						.write("Respuesta de " + game.getJugador2().getNombre() + ": " + er2.getRespuesta() + "\r\n");
 				game.getFw().write(ganador);
-				game.getFw().write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
-						+ "puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
-						+ " puntos. \r\n");
+				game.getFw()
+						.write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
+								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
+								+ " puntos. \r\n");
 
 				equiposGrupo.remove(equipoPrimero);
 				primeros.add(equipoPrimero);
@@ -276,14 +285,14 @@ public class AtenderPeticion implements Runnable {
 				er11.join();
 				er22.join();
 
-				ganador=actualizarPuntuaciones(game, er11.getRespuesta(), er22.getRespuesta(), er11.getTiempo(),
+				ganador = actualizarPuntuaciones(game, er11.getRespuesta(), er22.getRespuesta(), er11.getTiempo(),
 						er22.getTiempo(), equipoSegundo);
 
 				game.getJugador1().getBw().write("Respuesta correcta: " + equipoSegundo + ". \r\n");
 				game.getJugador1().getBw().write(ganador);
 				game.getJugador1().getBw()
 						.write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
-								+ "puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
+								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 				game.getJugador1().getBw().flush();
 
@@ -299,9 +308,10 @@ public class AtenderPeticion implements Runnable {
 				game.getFw().write("Respuesta " + game.getJugador1().getNombre() + ": " + er11.getRespuesta() + "\r\n");
 				game.getFw().write("Respuesta " + game.getJugador2().getNombre() + ": " + er22.getRespuesta() + "\r\n");
 				game.getFw().write(ganador);
-				game.getFw().write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
-						+ "puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
-						+ " puntos. \r\n");
+				game.getFw()
+						.write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
+								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
+								+ " puntos. \r\n");
 
 				segundos.add(equipoSegundo);
 
@@ -360,23 +370,22 @@ public class AtenderPeticion implements Runnable {
 
 				siguiente.add(ganadorPartido);
 
-				String ganador=actualizarPuntuaciones(game, er1.getRespuesta(), er2.getRespuesta(), er1.getTiempo(), er2.getTiempo(),
-						resultadoPartido);
-				
+				String ganador = actualizarPuntuaciones(game, er1.getRespuesta(), er2.getRespuesta(), er1.getTiempo(),
+						er2.getTiempo(), resultadoPartido);
+
 				game.getJugador1().getBw().write("Respuesta correcta: " + resultadoPartido + ". \r\n");
 				game.getJugador1().getBw().write(ganador);
 				game.getJugador1().getBw()
 						.write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
-								+ "puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
+								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 				game.getJugador1().getBw().flush();
-
 
 				game.getJugador2().getBw().write("Respuesta correcta: " + resultadoPartido + ". \r\n");
 				game.getJugador2().getBw().write(ganador);
 				game.getJugador2().getBw()
 						.write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
-								+ "puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
+								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 				game.getJugador2().getBw().flush();
 
@@ -386,9 +395,10 @@ public class AtenderPeticion implements Runnable {
 				game.getFw().write("Respuesta " + game.getJugador1().getNombre() + ": " + er1.getRespuesta() + "\r\n");
 				game.getFw().write("Respuesta " + game.getJugador2().getNombre() + ": " + er2.getRespuesta() + "\r\n");
 				game.getFw().write(ganador);
-				game.getFw().write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
-						+ "puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
-						+ " puntos. \r\n");
+				game.getFw()
+						.write("Puntuaciones: " + game.getJugador1().getNombre() + ": " + game.getJugador1().getPuntos()
+								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
+								+ " puntos. \r\n");
 				n++;
 
 			}
@@ -436,9 +446,9 @@ public class AtenderPeticion implements Runnable {
 				er1.join();
 				er2.join();
 
-				String ganador=actualizarPuntuaciones(game, er1.getRespuesta(), er2.getRespuesta(), er1.getTiempo(), er2.getTiempo(),
-						resultadoFinal);
-				
+				String ganador = actualizarPuntuaciones(game, er1.getRespuesta(), er2.getRespuesta(), er1.getTiempo(),
+						er2.getTiempo(), resultadoFinal);
+
 				game.getJugador1().getBw().write("Respuesta correcta: " + resultadoFinal + ". \r\n");
 				game.getJugador1().getBw().write(ganador);
 				game.getJugador1().getBw()
@@ -446,7 +456,7 @@ public class AtenderPeticion implements Runnable {
 								+ "puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 				game.getJugador1().getBw().flush();
-				
+
 				game.getJugador2().getBw().write("Respuesta correcta: " + resultadoFinal + ". \r\n");
 				game.getJugador2().getBw().write(ganador);
 				game.getJugador2().getBw()
@@ -487,31 +497,4 @@ public class AtenderPeticion implements Runnable {
 
 	}
 
-	public static void cerrar(Partida game, DataOutputStream dis1) {
-		try {
-			game.getFw().close();
-
-			game.getJugador1().getBw().write("END\r\n");
-			game.getJugador1().getBw().flush();
-			game.getJugador2().getBw().write("END\r\n");
-			game.getJugador2().getBw().flush();
-
-			File fichero = new File("Desarrollo.txt");
-			game.getJugador1().getBw().write(fichero.getName() + ":" + fichero.length() + "\r\n");
-			game.getJugador1().getBw().flush();
-			game.getJugador2().getBw().write(fichero.getName() + ":" + fichero.length() + "\r\n");
-			game.getJugador2().getBw().flush();
-
-			try (FileInputStream fin = new FileInputStream(fichero)) {
-				byte[] buff = new byte[1024];
-				int leidos = fin.read(buff);
-				while (leidos != -1) {
-					dis1.write(buff, 0, leidos);
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
