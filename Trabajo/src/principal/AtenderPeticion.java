@@ -62,7 +62,7 @@ public class AtenderPeticion implements Runnable {
 
 			faseDeGrupos(game, primeros, segundos, octavos, root);  //Comienza la partida y se realiza la fase de grupos
 
-			generarOctavos(primeros, segundos, octavos); //genera los partidos de octavos a partir de los primeros y segundos de cada grupo
+			generarOctavos(primeros, segundos, octavos); //Genera los partidos de octavos a partir de los primeros y segundos de cada grupo.
 
 			fw.write("\r\n");
 			fw.write("Octavos de final: \r\n");
@@ -72,7 +72,7 @@ public class AtenderPeticion implements Runnable {
 			bw1.write("¡¡¡Comienzan los octavos!!! \r\n");
 			bw2.write("¡¡¡Comienzan los octavos!!! \r\n");
 
-			enfrentamientos(game, octavos, cuartos, partidos, 0); //se realiza la ronda de octavos
+			enfrentamientos(game, octavos, cuartos, partidos, 0);	//Se realiza la ronda de octavos.
 
 			fw.write("\r\n");
 			fw.write("Cuartos de final: \r\n");
@@ -82,7 +82,7 @@ public class AtenderPeticion implements Runnable {
 			bw1.write("¡¡¡Comienzan los cuartos!!! \r\n");
 			bw2.write("¡¡¡Comienzan los cuartos!!! \r\n");
 
-			enfrentamientos(game, cuartos, semifinales, partidos, 8);//se realiza la ronda de cuartos
+			enfrentamientos(game, cuartos, semifinales, partidos, 8);	//Se realiza la ronda de cuartos.
 
 			fw.write("\r\n");
 			fw.write("Semifinales: \r\n");
@@ -92,9 +92,9 @@ public class AtenderPeticion implements Runnable {
 			bw1.write("¡¡¡Comienzan las semifinales!!! \r\n");
 			bw2.write("¡¡¡Comienzan las semifinales!!! \r\n");
 
-			enfrentamientos(game, semifinales, finalistas, partidos, 12);//se realizan las semifinales
+			enfrentamientos(game, semifinales, finalistas, partidos, 12);	//Se realizan las semifinales.
 
-			finales(game, finalistas, partidos.item(14).getTextContent()); // se hace la final
+			finales(game, finalistas, partidos.item(14).getTextContent());	//Se hace la final.
 
 
 			
@@ -112,8 +112,7 @@ public class AtenderPeticion implements Runnable {
 
 	}
 
-	// obtiene el identificador de cada grupo de la fase de grupos a partir de su posicion
-	
+	//Obtiene el identificador de cada grupo de la fase de grupos a partir de su posicion.
 	public static String letraGrupo(int i) {
 		if (i == 0) {
 			return "A";
@@ -142,8 +141,7 @@ public class AtenderPeticion implements Runnable {
 		return "";
 	}
 
-	//Tras contestar a una pregunta, actualizamos las putunaciones y las mostramos 
-	
+	//Tras contestar a una pregunta, actualizamos las putunaciones y las devuelve.
 	public static String actualizarPuntuaciones(Partida game, String s1, String s2, long t1, long t2,
 			String respuesta) {
 		boolean acertada = false;
@@ -179,8 +177,7 @@ public class AtenderPeticion implements Runnable {
 	public static void faseDeGrupos(Partida game, List<String> primeros, List<String> segundos, List<String> octavos,
 			Element root) {
 		try {
-			// comienza la partida
-			
+			//Comienza la partida.
 			game.getJugador1().getBw().write("Empieza el juego, introduce tu nombre:\r\n");
 			game.getJugador1().getBw().write("ya" + "\r\n");
 			game.getJugador1().getBw().flush();
@@ -203,7 +200,7 @@ public class AtenderPeticion implements Runnable {
 
 			String grupo;
 			int k = 0;
-			//bucle para recorrer los equipos de un grupo
+			//Bucle para recorrer los equipos de un grupo.
 			for (int i = 0; i < grupos.getLength(); i = i + 1) {
 				grupo = letraGrupo(i);
 				game.getJugador1().getBw().write("¿Qué equipo obtuvo la primera plaza del grupo " + grupo + "? \r\n"); //preguntamos por el 1º
@@ -213,20 +210,20 @@ public class AtenderPeticion implements Runnable {
 				ArrayList<String> equiposGrupo = new ArrayList<String>();
 				String equipo, equipoPrimero = "", equipoSegundo = "";
 				
-				//bucle con doble función
+				//Bucle con doble función.
 				for (int j = 0; j < 4; j++) {
 					if (equipos.item(k).hasAttributes()) {
 						NamedNodeMap attr = equipos.item(k).getAttributes();
 						Node nodeAttr2 = attr.getNamedItem("id");
 						if (nodeAttr2.getNodeValue().equals("primero")) {
-							equipoPrimero = equipos.item(k).getTextContent(); //guardamos los primeros en un vector
+							equipoPrimero = equipos.item(k).getTextContent();	//Guardamos los primeros en un vector
 						} else if (nodeAttr2.getNodeValue().equals("segundo")) {
-							equipoSegundo = equipos.item(k).getTextContent(); //y los segundos en otro
+							equipoSegundo = equipos.item(k).getTextContent();	//y los segundos en otro.
 						}
 					}
-					equipo = equipos.item(k).getTextContent(); //guardamos en un vector los 4 equipos para hacer comprobaciones posteriores
+					equipo = equipos.item(k).getTextContent();	//Guardamos en un vector los 4 equipos para hacer comprobaciones posteriores.
 					equiposGrupo.add(equipo);
-					game.getJugador1().getBw().write(equipo + "\r\n"); //mostramos a los jugadores los equipos del grupo
+					game.getJugador1().getBw().write(equipo + "\r\n");	//Mostramos a los jugadores los equipos del grupo.
 					game.getJugador2().getBw().write(equipo + "\r\n");
 					k++;
 				}
@@ -239,8 +236,7 @@ public class AtenderPeticion implements Runnable {
 				game.getFw().write("\r\n");
 				game.getFw().write("Grupo " + grupo + ": \r\n");
 
-				//esperamos respuesta clientes
-				
+				//Esperamos respuesta clientes.
 				EsperarRespuesta er1 = new EsperarRespuesta(game.getJugador1().getBr(), game.getJugador1().getBw(),
 						equiposGrupo, 4);
 				EsperarRespuesta er2 = new EsperarRespuesta(game.getJugador2().getBr(), game.getJugador2().getBw(),
@@ -280,13 +276,13 @@ public class AtenderPeticion implements Runnable {
 								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 
-				//Así no permitimos que se introduzca como respuesta el que ya realmente quedó primero
-				equiposGrupo.remove(equipoPrimero); //quitamos del vector el primero, dado que ya le hemos dicho cual es y toca responder al segundo consideramos el primero una respuesta inválida
-				primeros.add(equipoPrimero); //rellenamos un vector de primeros de cada grupo para usarlo despues para generar los octavos
+				//Así no permitimos que se introduzca como respuesta el que ya realmente quedó primero.
+				equiposGrupo.remove(equipoPrimero);	//Quitamos del vector el primero, dado que ya le hemos dicho cual es y toca responder al segundo consideramos el primero una respuesta inválida.
+				primeros.add(equipoPrimero);	//Rellenamos un vector de primeros de cada grupo para usarlo despues para generar los octavos.
 
 				
-				// todo igual para los segundos
-				game.getJugador1().getBw().write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n"); //preguntamos por el segundo
+				//Todo igual para los segundos.
+				game.getJugador1().getBw().write("¿Qué equipo obtuvo la segunda plaza del grupo " + grupo + "? \r\n");	//Preguntamos por el segundo.
 				game.getJugador1().getBw().write("ya" + "\r\n");
 				game.getJugador1().getBw().flush();
 
@@ -346,7 +342,7 @@ public class AtenderPeticion implements Runnable {
 	}
 
 	
-	//Genera los octavos del mundial
+	//Genera los octavos del mundial.
 	public static void generarOctavos(List<String> primeros, List<String> segundos, List<String> octavos) {
 		for (int i = 0; i < 8; i = i + 2) {
 			octavos.add(primeros.get(i));
@@ -358,13 +354,13 @@ public class AtenderPeticion implements Runnable {
 		}
 	}
 
-	//Genera una fase dee enfrentamientos (ya sea octavos, cuartos o semis, depende de los valores del vector actual y de n
+	//Genera una fase de enfrentamientos (ya sea octavos, cuartos o semis, depende de los valores del vector actual y del entero n).
 	public static void enfrentamientos(Partida game, List<String> actual, List<String> siguiente, NodeList partidos,
 			int n) {
 		try {
 			ArrayList<String> encuentro;
 			for (int i = 0; i < actual.size(); i = i + 2) {
-				encuentro = new ArrayList<>(); //vector de 2 componentes, los dos equipos de un partido
+				encuentro = new ArrayList<>();	//Vector de 2 componentes, los dos equipos de un partido.
 				encuentro.add(actual.get(i));
 				encuentro.add(actual.get(i + 1));
 
@@ -387,20 +383,18 @@ public class AtenderPeticion implements Runnable {
 				er1.join();
 				er2.join();
 				
-				//obtenemos el resultado del xml
-
+				//Obtenemos el resultado del xml.
 				String ganadorPartido = partidos.item(n).getAttributes().getNamedItem("id").getNodeValue();
 				String resultadoPartido = partidos.item(n).getTextContent();
 
-				siguiente.add(ganadorPartido);//generamos el vector de ganadores para la siguiente fase
+				siguiente.add(ganadorPartido);	//Generamos el vector de ganadores para la siguiente fase.
 
-				//comparamos resultados
+				//Comparamos resultados.
 				String ganador = actualizarPuntuaciones(game, er1.getRespuesta(), er2.getRespuesta(), er1.getTiempo(),
 						er2.getTiempo(), resultadoPartido);
 
 				
-				//mostramos resultados
-				
+				//Mostramos resultados.
 				game.getJugador1().getBw().write("Respuesta correcta: " + resultadoPartido + ". \r\n");
 				game.getJugador1().getBw().write(ganador);
 				game.getJugador1().getBw()
@@ -428,7 +422,6 @@ public class AtenderPeticion implements Runnable {
 								+ " puntos. " + game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos()
 								+ " puntos. \r\n");
 				n++;
-
 			}
 			game.getFw().write("\r\n");
 
@@ -442,7 +435,7 @@ public class AtenderPeticion implements Runnable {
 
 	}
 
-	//igual que los anteriores pero hecho para la final, puesto que no habrá siguiente fase, y hay diferentes mensajes al ser el fin del programa
+	//Igual que los anteriores pero hecho para la final, puesto que no habrá siguiente fase, y hay diferentes mensajes al ser el fin del programa.
 	public static void finales(Partida game, List<String> finalistas, String resultadoFinal) {
 		try {
 			
@@ -508,7 +501,7 @@ public class AtenderPeticion implements Runnable {
 
 			}
 
-			//usamos los métodos de game para pintar resultados
+			//Usamos los métodos de game para pintar resultados.
 			game.getFw().write("\r\n");
 			game.getFw().write("Fin. El ganador es: " + game.ganador() + ". El resultado ha sido: "
 					+ game.pintarResultado() + " \r\n");
@@ -518,7 +511,7 @@ public class AtenderPeticion implements Runnable {
 			game.getFw()
 					.write(game.getJugador2().getNombre() + ": " + game.getJugador2().getPuntos() + " puntos. \r\n");
 
-			// cerramos todo
+			//Cerramos todo
 			game.getJugador1().getBw().write("END\r\n");
 			game.getJugador1().getBw().flush();
 			game.getJugador2().getBw().write("END\r\n");

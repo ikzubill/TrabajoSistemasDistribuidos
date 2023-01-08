@@ -96,6 +96,7 @@ public class EsperarRespuesta extends Thread {
 						bw.write("ya" + "\r\n");
 						bw.flush();
 						respuesta2 = br.readLine();
+						//Así conseguimos evitar excepciones indeseadas y conseguimos que se introduzcan resultados razonables.
 						if (!respuesta2.matches("[0-9]*-[0-9]*")) {
 							bw.write("Vuelve a escribirlo correctamente en el formato (x-y): \r\n");
 							bw.write("ya" + "\r\n");
