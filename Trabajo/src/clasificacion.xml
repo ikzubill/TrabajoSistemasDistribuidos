@@ -1,68 +1,68 @@
 <mundial>
 	<grupos>
-		<grupo id="A">	
-			<equipo>Qatar</equipo>		
-			<equipo>Ecuador</equipo>		
-			<equipo id="segundo">Senegal</equipo>		
-			<equipo id="primero">Países Bajos</equipo>		
+		<grupo id="A">
+			<equipo>Qatar</equipo>
+			<equipo>Ecuador</equipo>
+			<equipo id="segundo">Senegal</equipo>
+			<equipo id="primero">Países Bajos</equipo>
 		</grupo>
-		<grupo id="B">	
-			<equipo id="primero">Inglaterra</equipo>		
-			<equipo>Irán</equipo>		
-			<equipo id="segundo">Estados Unidos</equipo>		
-			<equipo>Gales</equipo>	
+		<grupo id="B">
+			<equipo id="primero">Inglaterra</equipo>
+			<equipo>Irán</equipo>
+			<equipo id="segundo">Estados Unidos</equipo>
+			<equipo>Gales</equipo>
 		</grupo>
-		<grupo id="C">	
-			<equipo id="primero">Argentina</equipo>		
-			<equipo>Arabia Saudí</equipo>		
-			<equipo>México</equipo>		
-			<equipo id="segundo">Polonia</equipo>		
+		<grupo id="C">
+			<equipo id="primero">Argentina</equipo>
+			<equipo>Arabia Saudí</equipo>
+			<equipo>México</equipo>
+			<equipo id="segundo">Polonia</equipo>
 		</grupo>
-		<grupo id="D">	
-			<equipo id="segundo">Australia</equipo>		
-			<equipo>Dinamarca</equipo>		
-			<equipo id="primero">Francia</equipo>		
-			<equipo>Túnez</equipo>	
+		<grupo id="D">
+			<equipo id="segundo">Australia</equipo>
+			<equipo>Dinamarca</equipo>
+			<equipo id="primero">Francia</equipo>
+			<equipo>Túnez</equipo>
 		</grupo>
-		<grupo id="E">	
-			<equipo>Alemania</equipo>		
-			<equipo>Costa Rica</equipo>		
-			<equipo id="segundo">España</equipo>		
-			<equipo id="primero">Japón</equipo>		
+		<grupo id="E">
+			<equipo>Alemania</equipo>
+			<equipo>Costa Rica</equipo>
+			<equipo id="segundo">España</equipo>
+			<equipo id="primero">Japón</equipo>
 		</grupo>
-		<grupo id="F">	
-			<equipo>Bélgica</equipo>		
-			<equipo>Canadá</equipo>		
-			<equipo id="segundo">Croacia</equipo>		
-			<equipo id="primero">Marruecos</equipo>		
+		<grupo id="F">
+			<equipo>Bélgica</equipo>
+			<equipo>Canadá</equipo>
+			<equipo id="segundo">Croacia</equipo>
+			<equipo id="primero">Marruecos</equipo>
 		</grupo>
 		<grupo id="G">
-			<equipo id="primero">Brasil</equipo>		
-			<equipo>Camerún</equipo>		
-			<equipo>Serbia</equipo>		
-			<equipo id="segundo">Suiza</equipo>	
-		</grupo>	
-		<grupo id="H">	
-			<equipo id="segundo">Corea del Sur</equipo>		
-			<equipo>Ghana</equipo>		
-			<equipo id="primero">Portugal</equipo>		
-			<equipo>Uruguay</equipo>		
-		</grupo>		
+			<equipo id="primero">Brasil</equipo>
+			<equipo>Camerún</equipo>
+			<equipo>Serbia</equipo>
+			<equipo id="segundo">Suiza</equipo>
+		</grupo>
+		<grupo id="H">
+			<equipo id="segundo">Corea del Sur</equipo>
+			<equipo>Ghana</equipo>
+			<equipo id="primero">Portugal</equipo>
+			<equipo>Uruguay</equipo>
+		</grupo>
 	</grupos>
 	<octavos>
 		<partido id="Países Bajos">3-1</partido>
 		<partido id="Argentina">2-1</partido>
-		<partido id="Croacia" penaltis="1-3">1-1</partido>
+		<partido id="Croacia" penaltis="1-3">1-1(1-3)</partido>
 		<partido id="Brasil">4-1</partido>
 		<partido id="Inglaterra">0-3</partido>
 		<partido id="Francia">1-3</partido>
-		<partido id="Marruecos" penaltis="3-0">0-0</partido>
-		<partido id="Portugal">1-6</partido>			
+		<partido id="Marruecos" penaltis="0-3">0-0(0-3)</partido>
+		<partido id="Portugal">1-6</partido>
 	</octavos>
-	
+
 	<cuartos>
-		<partido id="Argentina" penaltis="3-4">2-2</partido>
-		<partido id="Croacia" penaltis="4-2">1-1</partido>
+		<partido id="Argentina" penaltis="3-4">2-2(3-4)</partido>
+		<partido id="Croacia" penaltis="4-2">1-1(4-2)</partido>
 		<partido id="Francia">1-2</partido>
 		<partido id="Marruecos">1-0</partido>
 	</cuartos>
@@ -71,7 +71,7 @@
 		<partido id="Francia">2-0</partido>
 	</semifinales>
 	<finalistas>
-		<partido id="Argentina" penaltis="4-2">3-3</partido>
+		<partido id="Argentina" penaltis="4-2">3-3(4-2)</partido>
 	</finalistas>
-	
+
 </mundial>

@@ -13,7 +13,6 @@ public class Cliente {
 				BufferedWriter bw1=new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 				BufferedReader br1=new BufferedReader(new InputStreamReader(s.getInputStream()));
 				BufferedReader teclado=new BufferedReader(new InputStreamReader(System.in));){
-				//System.out.println(br1.readLine());
 				System.out.println(br1.readLine());
 				String resultado=br1.readLine();
 				while(!resultado.equals("END")) {
@@ -26,7 +25,7 @@ public class Cliente {
 						resultado=br1.readLine();
 					}
 				}
-				//Falta que el cliente reciba el fichero y lo muestre
+				// Falta que el cliente reciba el fichero y lo muestre
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
