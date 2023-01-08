@@ -1,0 +1,236 @@
+Predicciones de los jugadores: mike y localhost
+
+Fase de grupos:  
+
+
+Grupo A: 
+¿Qué equipo obtuvo la primera plaza del grupo A? 
+Respuesta de mike: Qatar
+Respuesta de localhost: Qatar
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 0 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo A? 
+Respuesta mike: Qatar
+Respuesta localhost: Qatar
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 0 puntos. 
+
+Grupo B: 
+¿Qué equipo obtuvo la primera plaza del grupo B? 
+Respuesta de mike: Irán
+Respuesta de localhost: Irán
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 0 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo B? 
+Respuesta mike: Irán
+Respuesta localhost: Irán
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 0 puntos. 
+
+Grupo C: 
+¿Qué equipo obtuvo la primera plaza del grupo C? 
+Respuesta de mike: México
+Respuesta de localhost: México
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 0 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo C? 
+Respuesta mike: México
+Respuesta localhost: México
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 0 puntos. 
+
+Grupo D: 
+¿Qué equipo obtuvo la primera plaza del grupo D? 
+Respuesta de mike: Australia
+Respuesta de localhost: Australia
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 0 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo D? 
+Respuesta mike: Australia
+Respuesta localhost: Australia
+localhost acertó antes que mike. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 1 puntos. 
+
+Grupo E: 
+¿Qué equipo obtuvo la primera plaza del grupo E? 
+Respuesta de mike: Alemania
+Respuesta de localhost: Alemania
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 1 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo E? 
+Respuesta mike: Alemania
+Respuesta localhost: Alemania
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 1 puntos. 
+
+Grupo F: 
+¿Qué equipo obtuvo la primera plaza del grupo F? 
+Respuesta de mike: Canadá
+Respuesta de localhost: Canadá
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 1 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo F? 
+Respuesta mike: Canadá
+Respuesta localhost: Canadá
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 1 puntos. 
+
+Grupo G: 
+¿Qué equipo obtuvo la primera plaza del grupo G? 
+Respuesta de mike: Brasil
+Respuesta de localhost: Brasil
+localhost acertó antes que mike. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 2 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo G? 
+Respuesta mike: Camerún
+Respuesta localhost: Camerún
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 2 puntos. 
+
+Grupo H: 
+¿Qué equipo obtuvo la primera plaza del grupo H? 
+Respuesta de mike: Uruguay
+Respuesta de localhost: Uruguay
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 2 puntos. 
+¿Qué equipo obtuvo la segunda plaza del grupo H? 
+Respuesta mike: Uruguay
+Respuesta localhost: Uruguay
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 2 puntos. 
+
+Octavos de final: 
+
+ 
+¿Cual fue el resultado exacto de este partido?  Países Bajos vs Estados Unidos 
+Respuesta mike: 2-1
+Respuesta localhost: 5-2
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 2 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Argentina vs Australia 
+Respuesta mike: 4-1
+Respuesta localhost: 2-1
+localhost acertó antes que mike. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 3 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Japón vs Croacia 
+Respuesta mike: 4-1
+Respuesta localhost: 2-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 3 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Brasil vs Corea del Sur 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+localhost acertó antes que mike. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Senegal vs Inglaterra 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Polonia vs Francia 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  España vs Marruecos 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Suiza vs Portugal 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+
+Cuartos de final: 
+
+ 
+¿Cual fue el resultado exacto de este partido?  Países Bajos vs Argentina 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Croacia vs Brasil 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Inglaterra vs Francia 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Marruecos vs Portugal 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+
+Semifinales: 
+
+ 
+¿Cual fue el resultado exacto de este partido?  Argentina vs Croacia 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+ 
+¿Cual fue el resultado exacto de este partido?  Francia vs Marruecos 
+Respuesta mike: 4-1
+Respuesta localhost: 4-1
+Ni localhost ni mike acertaron el resultado. 
+ 
+Puntuaciones: mike: 0 puntos. localhost: 4 puntos. 
+
+Final: 
+
+¿¿Cual fue el resultado exacto de este partido?  Argentina vs Francia 
+Respuesta mike: 2-2(2-1)
+Respuesta localhost: 3-3(4-2)
+localhost acertó antes que mike. 
+ 
+
+Fin. El ganador es: localhost. El resultado ha sido: 0 - 5 
+Tabla puntuaciones:  
+mike: 0 puntos. 
+localhost: 5 puntos. 

@@ -79,15 +79,16 @@ public class EsperarRespuesta extends Thread {
 		else if (n == 2) {
 			while (!igual) {
 				respuesta = br.readLine();
-				String[] resultado = respuesta.split("-");
-				int uno = Integer.parseInt(resultado[0]);
-				int dos = Integer.parseInt(resultado[1]);
+
 				//Así conseguimos evitar excepciones indeseadas y conseguimos que se introduzcan resultados razonables.
 				if (!respuesta.matches("[0-9]*-[0-9]*")) {
 					bw.write("Vuelve a escribirlo correctamente en el formato (x-y): \r\n");
 					bw.write("ya" + "\r\n");
 					bw.flush();
 				} else {
+					String[] resultado = respuesta.split("-");
+					int uno = Integer.parseInt(resultado[0]);
+					int dos = Integer.parseInt(resultado[1]);
 					igual = true;
 					//Tenemos en cuenta que para el resultado correcto hay que introducir el resultado de los penaltis.
 					while ((uno - dos) == 0) {
